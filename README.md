@@ -1,0 +1,2 @@
+# Course_resource_manager
+程序设计实习大作业，使用Qt实现的课程资源管理器
