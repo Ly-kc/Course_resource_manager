@@ -1,30 +1,26 @@
 ﻿#include "addfiledialog.h"
 #include "ui_addfiledialog.h"
 
-AddFileDialog::AddFileDialog(QString name,QString dir_path,QDataStream& writeInfoStr,QWidget *parent) :
+AddFileDialog::AddFileDialog(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::AddFileDialog),
-    write_info(writeInfoStr)
+    ui(new Ui::AddFileDialog)
 {
-    ui->setupUi(this);
+   // ui->setupUi(this);
     /*
      * QVBoxLayout 局部工具中放置 QFormLayout 和 QHBoxLayout
      * QFormLayout 中放置多个单行输入框
      * QHBoxLayout 中放置两个按钮
     */
-    this->file_name = name;
-    QDir dir(dir_path);
-    this->file_path = dir.absoluteFilePath(name);
-    setWindowIcon(QIcon(":/logo.ico"));
+
+//    setWindowIcon(QIcon(":/logo.ico"));
     setWindowFlags(Qt::Dialog);
     setWindowTitle("set new file information");
     QVBoxLayout * VBox = new QVBoxLayout;
     QFormLayout *FormLayout = new QFormLayout;
 
     name_edit = new QLineEdit;
-    name_edit->setPlaceholderText(file_name);
-    path_edit = new QLineEdit;
-    path_edit->setPlaceholderText(file_path);
+//    path_edit = new QLineEdit;
+//    path_edit->setPlaceholderText(file_path);
     type_box = new QComboBox;
     subject_box = new QComboBox;
     QStringList type_list;
@@ -38,7 +34,6 @@ AddFileDialog::AddFileDialog(QString name,QString dir_path,QDataStream& writeInf
     priority_slider->setPageStep(1);
     priority_slider->setOrientation(Qt::Horizontal);
     FormLayout->addRow("name:",name_edit);
-    FormLayout->addRow("path:",path_edit);
     FormLayout->addRow("subject:",subject_box);
     FormLayout->addRow("type:",type_box);
     FormLayout->addRow("priority:",priority_slider);
@@ -59,14 +54,37 @@ AddFileDialog::AddFileDialog(QString name,QString dir_path,QDataStream& writeInf
     QObject::connect(cancel_button,&QPushButton::clicked,this,&AddFileDialog::close);
 }
 
-AddFileDialog::~AddFileDialog()
+void AddFileDialog::set_file(QString name)
 {
-    delete ui;
+    name_edit->setPlaceholderText(name);
+    file_name = name;
+    this->show();
+//    QEventLoop loop;
+//    connect(this, AddFileDialog::close, &loop, QEventLoop::quit);
+//    loop.exec(QEventLoop::ExcludeUserInputEvents);
 }
 
 void AddFileDialog::save()
 {
+    if(name_edit->text()!="") file_name = name_edit->text();
+    type = type_box->currentText();
+    subject = subject_box->currentText();
+    priority = priority_slider->value();
+    this->close();
+}
 
+CourseFile get_course_file(QString name)
+{
+     AddFileDialog dia;
+     dia.set_file(name);
+     dia.exec();
+     CourseFile cf(dia.subject.toStdString(),dia.type.toStdString(),dia.file_name.toStdString(),dia.priority);
+     return cf;
+}
+
+AddFileDialog::~AddFileDialog()
+{
+    delete ui;
 }
 
 
