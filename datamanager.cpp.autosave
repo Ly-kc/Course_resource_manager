@@ -159,7 +159,7 @@ void MyWatcher::transfer_files(QString watch_path){
     qDebug()<<"detected";
     QFileInfoList file_list=QDir(watch_path).entryInfoList(QDir::Files);
     for(auto fi:file_list){
-
+        fi.baseName()
     }
 }
 
