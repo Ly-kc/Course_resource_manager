@@ -12,6 +12,8 @@
 #include <QJsonParseError>
 #include <QJsonValue>
 #include<addfiledialog.h>
+#include<filetree.h>
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -27,7 +29,8 @@ public:
 
 private:
     Ui::MainWindow *ui;
-    QString dir_path;
+    QString detect_dir;
+    QString save_dir;
     void startup_detect();
     void dir_detect();
     void add_file(QString file_name,QDataStream& writeInfoStr);

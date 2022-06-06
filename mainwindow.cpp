@@ -6,7 +6,7 @@ MainWindow::MainWindow(QString path,QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    dir_path = path;
+    detect_dir = path;
     startup_detect();
 }
 
@@ -24,7 +24,7 @@ void MainWindow::startup_detect()
 //        qDebug()<<"不存在该路径"<<endl;
 //        curr_dir.mkpath("f_info.txt");
 //    }
-    QDir dir(dir_path);
+    QDir dir(detect_dir);
     dir.setFilter(QDir::Files);
     dir.setSorting(QDir::Name);
     //dir.setNameFilters(QString("*.md").split(";"));

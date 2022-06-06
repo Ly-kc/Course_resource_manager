@@ -66,6 +66,12 @@ AddFileDialog::~AddFileDialog()
 
 void AddFileDialog::save()
 {
+    file_name = name_edit->text();
+    file_path = path_edit->text();
+    type = type_box->currentText();
+    subject = subject_box->currentText();
+    priority = priority_slider->value();
+
 
 }
 
