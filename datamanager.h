@@ -1,10 +1,14 @@
+#ifndef DATAMANAGER_H
+#define DATAMANAGER_H
+
 #include<string>
 #include<QString>
 #include<algorithm>
 #include<vector>
 #include<QDebug>
 #include<QDateTime>
-#include <functional>
+#include<functional>
+#include<QFileSystemWatcher>
 
 using std::string;
 using std::vector;
@@ -19,6 +23,8 @@ class CourseFile{
 
 public:
     CourseFile(string _subject="",string _type="",string _name="",
+               int _prior=0,int _freq=0,QDateTime _time=QDateTime::currentDateTime());
+    CourseFile(QString _subject="",QString _type="",QString _name="",
                int _prior=0,int _freq=0,QDateTime _time=QDateTime::currentDateTime());
     QString get_subject()const;
     QString get_type()const;
@@ -50,4 +56,13 @@ public:
     ~CourseFileManager();// write json file
 };
 
+class MyWatcher: public QObject{
+    QFileSystemWatcher *watcher;
+public:
+    MyWatcher(QString watch_path);
+    void transfer_files(QString watch_path);
+};
+
 extern CourseFileManager cfm;
+
+#endif
