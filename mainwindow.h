@@ -2,16 +2,17 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include<fileinfo.h>
-#include<QFile>
-#include<QDir>
-#include<QDebug>
+#include <fileinfo.h>
+#include <QFile>
+#include <QDir>
+#include <QDebug>
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonParseError>
 #include <QJsonValue>
-#include<addfiledialog.h>
+#include <addfiledialog.h>
+#include <filetreewindow.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
