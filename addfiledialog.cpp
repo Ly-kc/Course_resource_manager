@@ -59,9 +59,6 @@ void AddFileDialog::set_file(QString name)
     name_edit->setPlaceholderText(name);
     file_name = name;
     this->show();
-//    QEventLoop loop;
-//    connect(this, AddFileDialog::close, &loop, QEventLoop::quit);
-//    loop.exec(QEventLoop::ExcludeUserInputEvents);
 }
 
 void AddFileDialog::save()

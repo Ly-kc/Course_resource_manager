@@ -46,3 +46,4 @@ private:
 };
 
 #endif // ADDFILEDIALOG_H
+
