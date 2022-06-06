@@ -13,17 +13,24 @@ SOURCES += \
     fileinfo.cpp \
     filetree.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    filetreewindow.cpp \
+    jsoncpp.cpp \
+    datamanager.cpp
 
 HEADERS += \
     addfiledialog.h \
     fileinfo.h \
     filetree.h \
-    mainwindow.h
+    mainwindow.h \
+    filetreewindow.h \
+    json/json.h \
+    datamanager.h
 
 FORMS += \
     addfiledialog.ui \
-    mainwindow.ui
+    mainwindow.ui \
+    filetreewindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

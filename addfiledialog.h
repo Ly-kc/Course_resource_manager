@@ -10,6 +10,10 @@
 #include<QPushButton>
 #include<QComboBox>
 #include<QSlider>
+#include<datamanager.h>
+#include<QDebug>
+
+CourseFile get_course_file(QString name);
 
 namespace Ui {
 class AddFileDialog;
@@ -18,15 +22,14 @@ class AddFileDialog;
 class AddFileDialog : public QDialog
 {
     Q_OBJECT
-
+    friend CourseFile get_course_file(QString name);
 public:
-    explicit AddFileDialog(QString file_name,QString dir_path,QDataStream& writeInfoStr,QWidget *parent = nullptr);
+    explicit AddFileDialog(QWidget *parent = nullptr);
     ~AddFileDialog();
     void save();
-
+    void set_file(QString name);
 private:
     Ui::AddFileDialog *ui;
-    QDataStream& write_info;
     QString file_name;
     QString type;
     QString subject;
