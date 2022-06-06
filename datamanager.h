@@ -48,21 +48,24 @@ class CourseFileManager{
     vector<CourseFile> courses;
 public:
     CourseFileManager();// read json file
-    void add_file(QString file_path,CourseFile cf);
-    void erase_file(CourseFile cf);
+    bool add_file(QString file_path,CourseFile cf);
+    bool erase_file(CourseFile cf);
     vector<CourseFile> filter_file(std::function<bool(CourseFile)> filt=[](CourseFile){return true;});
-    void transform_file(std::function<CourseFile(CourseFile)> func,
+    bool transform_file(std::function<CourseFile(CourseFile)> func,
                         std::function<bool(CourseFile)> filt=[](CourseFile){return true;});
     ~CourseFileManager();// write json file
 };
 
 class MyWatcher: public QObject{
+    QString watch_path;
     QFileSystemWatcher *watcher;
 public:
-    MyWatcher(QString watch_path);
-    void transfer_files(QString watch_path);
+    MyWatcher(QString _watch_path);
+    void transfer_files();
 };
 
 extern CourseFileManager cfm;
+
+extern MyWatcher mw;
 
 #endif

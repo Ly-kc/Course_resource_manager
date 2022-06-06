@@ -8,14 +8,7 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-
-    QFile temp_info("temp_info.txt");
-    temp_info.open(QIODevice::ReadWrite);
-    QDataStream writeInfoStr(&temp_info),readInfoStr(&temp_info);
-//    FileTreeWindow fw("");
-//    fw.show();
-    AddFileDialog dialog("233.txt","D:/code",writeInfoStr);
-    dialog.show();
+    mw.transfer_files();
 //    QString mFolderPath = QFileDialog::getExistingDirectory(NULL, "Open Folder", ".");
 
 //    MainWindow w(mFolderPath);

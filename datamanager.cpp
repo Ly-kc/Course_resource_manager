@@ -17,10 +17,10 @@ const QString time_format="yyyy/MM/dd HH:mm:ss";
 
 bool rmv_file(QString file_path){
     if(!QFileInfo::exists(file_path)) return 0;
-    qDebug()<<file_path;
+    //qDebug()<<file_path;
     QFileInfo fi(file_path);
     QString cur_dir=fi.absolutePath();
-    QDir().remove(file_path);
+    if(!QDir().remove(file_path)) return 0;
     QDir().rmpath(cur_dir);
     return 1;
 }
@@ -29,7 +29,7 @@ bool copy_file(QString from_path,QString to_dir,QString fname){
     QString to_path=to_dir+fname;
     if(from_path==to_path) return 0;//same path
     if(!QFileInfo::exists(from_path)) return 0;//source not exist
-    qDebug()<<from_path;
+    //qDebug()<<from_path;
     QDir().mkpath(to_dir);
     if( QDir().exists(to_path)) QDir().remove(to_path);//same name exists
     QFile::copy(from_path,to_path);
@@ -100,15 +100,17 @@ CourseFileManager::CourseFileManager(){
     }
 }
 
-void CourseFileManager::add_file(QString file_path,CourseFile cf){
+bool CourseFileManager::add_file(QString file_path,CourseFile cf){
     cf.upd_time();
-    if(copy_file(file_path,cf.get_dir(),cf.get_name()))
-        courses.push_back(cf);
+    if(!copy_file(file_path,cf.get_dir(),cf.get_name())) return 0;
+    courses.push_back(cf);
+    return 1;
 }
 
-void CourseFileManager::erase_file(CourseFile cf){
-    if(rmv_file(cf.get_path()))
-        courses.erase(std::remove(courses.begin(),courses.end(),cf),courses.end());
+bool CourseFileManager::erase_file(CourseFile cf){
+    if(!rmv_file(cf.get_path())) return 0;
+    courses.erase(std::remove(courses.begin(),courses.end(),cf),courses.end());
+    return 1;
 }
 
 //return a list of coursefiles using filt (returns ture defaultly)
@@ -119,14 +121,14 @@ vector<CourseFile> CourseFileManager::filter_file(std::function<bool(CourseFile)
 }
 
 //apply func to all files satisfying filt (returns ture defaultly)
-void CourseFileManager::transform_file(std::function<CourseFile(CourseFile)> func,
+bool CourseFileManager::transform_file(std::function<CourseFile(CourseFile)> func,
                                        std::function<bool(CourseFile)> filt){
     for(CourseFile&cf:courses)if(filt(cf)){
         QString pre_path=cf.get_path();
-        cf=func(cf);
-        cf.upd_time();
-//        qDebug()<<pre_path<<' '<<QFileInfo::exists(pre_path);
-        qDebug()<<move_file(pre_path,cf.get_dir(),cf.get_name());
+        auto new_cf=func(cf);
+        new_cf.upd_time();
+        if(move_file(pre_path,new_cf.get_dir(),new_cf.get_name()))
+            cf=new_cf;
     }
 }
 
@@ -149,17 +151,18 @@ CourseFileManager::~CourseFileManager(){
 
 CourseFileManager cfm;
 
-MyWatcher::MyWatcher(QString watch_path){
-    watcher=new QFileSystemWatcher;
-    watcher->addPath(watch_path);
-    connect(watcher,&QFileSystemWatcher::directoryChanged,this,&MyWatcher::transfer_files);
+MyWatcher::MyWatcher(QString _watch_path){
+    watch_path=_watch_path;
+//    watcher=new QFileSystemWatcher;
+//    watcher->addPath(watch_path);
+//    connect(watcher,&QFileSystemWatcher::directoryChanged,this,&MyWatcher::transfer_files);
 }
 
-void MyWatcher::transfer_files(QString watch_path){
-    qDebug()<<"detected";
+void MyWatcher::transfer_files(){
     QFileInfoList file_list=QDir(watch_path).entryInfoList(QDir::Files);
     for(auto fi:file_list){
-
+        auto cf=get_course_file(fi.fileName());
+        cfm.add_file(fi.absoluteFilePath(),cf);
     }
 }
 
