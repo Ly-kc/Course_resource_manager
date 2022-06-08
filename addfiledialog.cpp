@@ -5,7 +5,7 @@ AddFileDialog::AddFileDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::AddFileDialog)
 {
-   // ui->setupUi(this);
+    ui->setupUi(this);
     /*
      * QVBoxLayout 局部工具中放置 QFormLayout 和 QHBoxLayout
      * QFormLayout 中放置多个单行输入框

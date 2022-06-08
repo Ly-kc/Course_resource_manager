@@ -5,6 +5,8 @@
 #include<QMenu>
 #include<QScrollBar>
 #include<QHeaderView>
+#include<datamanager.h>
+#include<QString>
 
 class FileTree:public QTreeWidget
 {
@@ -17,8 +19,10 @@ public:
     QMenu *fileMenu;  //文件菜单栏
     QTreeWidgetItem *nowItem; //当前光标所在Item
     int nowCol; //当前所在列
-    void init_add();
-
+    void add_top();
+    void add_typeitem(QTreeWidgetItem* sub_item);
+    void add_fileitem(QTreeWidgetItem* type_item);
+    void item_clicked_slot(QTreeWidgetItem* parent_item);
 };
 
 #endif // FILETREE_H
