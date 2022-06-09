@@ -2,7 +2,6 @@
 #define ADDFILEDIALOG_H
 
 #include <QDialog>
-#include<mainwindow.h>
 #include<QVBoxLayout>
 #include<QHBoxLayout>
 #include<QFormLayout>
@@ -10,8 +9,9 @@
 #include<QPushButton>
 #include<QComboBox>
 #include<QSlider>
-#include<datamanager.h>
 #include<QDebug>
+#include<mainwindow.h>
+#include<datamanager.h>
 
 CourseFile get_course_file(QString name);
 
@@ -22,12 +22,12 @@ class AddFileDialog;
 class AddFileDialog : public QDialog
 {
     Q_OBJECT
-    friend CourseFile get_course_file(QString name);
+    friend CourseFile get_course_file(QString name); //检测到新文件后一条龙
 public:
     explicit AddFileDialog(QWidget *parent = nullptr);
     ~AddFileDialog();
-    void save();
-    void set_file(QString name);
+    void save();  //获取输入信息
+    void set_file(QString name);  //调出窗口
 private:
     Ui::AddFileDialog *ui;
     QString file_name;

@@ -6,18 +6,25 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    file_tree = new FileTree;
-    file_tree->setMinimumWidth(100);
-    filter_widget = new FilterWidget;
     QHBoxLayout* whole_layout = new QHBoxLayout;
     QVBoxLayout* left_layout = new QVBoxLayout;
-    left_layout->addStretch(1);
+
+    file_tree = new FileTree;
+    file_tree->setMinimumWidth(140);
+    filter_widget = new FilterWidget;
+    transfer_button = new QPushButton;
+    transfer_button->setText("中转文件");
+
+    left_layout->addWidget(transfer_button);
     left_layout->addWidget(file_tree,11);
     whole_layout->addLayout(left_layout,0);
     whole_layout->addWidget(filter_widget,1);
+    //mainwindow不能直接setlayout
     central_widget = new QWidget;
     central_widget->setLayout(whole_layout);
     this->setCentralWidget(central_widget);
+
+    connect(transfer_button,&QPushButton::clicked,&mw,&MyWatcher::transfer_files);
 }
 
 MainWindow::~MainWindow()

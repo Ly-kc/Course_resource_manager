@@ -1,12 +1,13 @@
 ﻿#ifndef FILETREE_H
 #define FILETREE_H
-#include<mainwindow.h>
+
 #include<QTreeWidget>
 #include<QMenu>
 #include<QScrollBar>
 #include<QHeaderView>
-#include<datamanager.h>
 #include<QString>
+#include<datamanager.h>
+#include<mainwindow.h>
 
 class FileTree:public QTreeWidget
 {
@@ -15,14 +16,16 @@ public:
     FileTree(QWidget *parent = 0);
     ~FileTree();
     QTreeWidgetItem *root; //树的根
-    QMenu *dirMenu;  //文件夹菜单栏
-    QMenu *fileMenu;  //文件菜单栏
+    QMenu *dir_menu;  //文件夹菜单栏
+    QMenu *file_menu;  //文件菜单栏
     QTreeWidgetItem *nowItem; //当前光标所在Item
-    int nowCol; //当前所在列
-    void add_top();
+    int DIR = 0 , FILE = 1;  //结点的type
+    void flush(); //刷新显示(包含以下两个函数)
     void add_typeitem(QTreeWidgetItem* sub_item);
     void add_fileitem(QTreeWidgetItem* type_item);
-    void item_clicked_slot(QTreeWidgetItem* parent_item);
+    void item_clicked_slot(QTreeWidgetItem* parent_item); //左键展开
+    void show_menu(QPoint pos);  //右键菜单
+    void tempActionInformation(QAction* action); //菜单动作响应
 };
 
 #endif // FILETREE_H

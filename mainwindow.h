@@ -2,20 +2,17 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <fileinfo.h>
 #include <QFile>
 #include <QDir>
 #include <QDebug>
-#include<addfiledialog.h>
-#include<filetree.h>
-#include <filetreewindow.h>
 #include <QLineEdit>
 #include <QFormLayout>
 #include <QPushButton>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include<filterwidget.h>
-
+#include<addfiledialog.h>
+#include<filetree.h>
 
 
 QT_BEGIN_NAMESPACE
@@ -36,7 +33,8 @@ public:
 private:
     Ui::MainWindow *ui;
     FilterWidget* filter_widget;
-    FileTree* file_tree;
-    QWidget* central_widget;
+    FileTree* file_tree;  //文件树
+    QWidget* central_widget; //中部组件
+    QPushButton* transfer_button; //转运按钮
 };
 #endif // MAINWINDOW_H

@@ -1,15 +1,15 @@
 ﻿#ifndef FILTERWIDGET_H
 #define FILTERWIDGET_H
 
+#include<QScrollBar>
 #include <QWidget>
-#include<datamanager.h>
-#include<addfiledialog.h>
-#include<mainwindow.h>
 #include<QTableWidget>
 #include <QScrollArea>
 #include<QGroupBox>
 #include<datamanager.h>
-#include<QScrollBar>
+#include<datamanager.h>
+#include<addfiledialog.h>
+#include<mainwindow.h>
 
 class FilterWidget : public QWidget
 {
@@ -30,9 +30,10 @@ public:
     QTableWidget* file_table;
     QStringList subjects;
     QStringList types;
-    void show_result();
+    void show_result(); //显示筛选结果
     void init_combo();
-    void init_result();
+    void init_result(); //显示所有文件
+    void click_cell_slot(int row , int colum);
 signals:
 
 };
