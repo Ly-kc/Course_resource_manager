@@ -19,6 +19,7 @@ public:
     QMenu *dir_menu;  //文件夹菜单栏
     QMenu *file_menu;  //文件菜单栏
     QTreeWidgetItem *nowItem; //当前光标所在Item
+    QPoint curr_pos;
     int DIR = 0 , FILE = 1;  //结点的type
     void flush(); //刷新显示(包含以下两个函数)
     void add_typeitem(QTreeWidgetItem* sub_item);

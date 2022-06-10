@@ -32,7 +32,14 @@ MainWindow::MainWindow(QWidget *parent)
     central_widget->setLayout(whole_layout);
     this->setCentralWidget(central_widget);
 
-    connect(transfer_button,&QPushButton::clicked,&mw,&MyWatcher::transfer_files);
+    connect(transfer_button,&QPushButton::clicked,this,&MainWindow::trans_files);
+}
+
+void MainWindow::trans_files()
+{
+    mw.transfer_files();
+    file_tree->flush();
+    filter_widget->show_result();
 }
 
 MainWindow::~MainWindow()

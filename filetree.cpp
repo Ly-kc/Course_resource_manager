@@ -37,7 +37,12 @@ FileTree::FileTree(QWidget *parent):QTreeWidget(parent)
 
 void FileTree::flush()
 {
+<<<<<<< HEAD
     vector<CourseFile> files = cfm.filter_file();
+=======
+    this->clear();
+    vector<CourseFile> files = cfm.filter_file([](CourseFile file){return true;});
+>>>>>>> origin/master
     vector<QString> subject;
     QString sub_name;
     for(auto i = files.begin() ; i != files.end() ; i ++)
@@ -110,6 +115,7 @@ void FileTree::item_clicked_slot(QTreeWidgetItem* parent_item)//----------------
 
 void FileTree::show_menu(QPoint pos)
 {
+     curr_pos = pos;
      QTreeWidgetItem* item = this->itemAt(pos);
      nowItem=item;
      if(item)
@@ -129,8 +135,17 @@ void FileTree::show_menu(QPoint pos)
 
 void FileTree::tempActionInformation(QAction *action)//--------------------------------一堆操作
 {
+<<<<<<< HEAD
     if(action->text() == "新建文件"){
         qDebug() << "hh";
+=======
+    QTreeWidgetItem* item = this->itemAt(curr_pos);
+    qDebug() << item->text(0);
+    qDebug() << item->parent()->text(0);
+    if(action->text() == "删除文件")
+    {
+    qDebug() << "hh";
+>>>>>>> origin/master
     }
     if(1)
     {

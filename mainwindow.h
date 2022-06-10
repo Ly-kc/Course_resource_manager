@@ -36,5 +36,6 @@ private:
     FileTree* file_tree;  //文件树
     QWidget* central_widget; //中部组件
     QPushButton* transfer_button; //转运按钮
+    void trans_files();
 };
 #endif // MAINWINDOW_H
