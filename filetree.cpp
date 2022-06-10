@@ -109,6 +109,7 @@ void FileTree::item_clicked_slot(QTreeWidgetItem* parent_item)//----------------
 
 void FileTree::show_menu(QPoint pos)
 {
+     curr_pos = pos;
      QTreeWidgetItem* item = this->itemAt(pos);
      if(item)
      {
@@ -127,6 +128,9 @@ void FileTree::show_menu(QPoint pos)
 
 void FileTree::tempActionInformation(QAction *action)//--------------------------------一堆操作
 {
+    QTreeWidgetItem* item = this->itemAt(curr_pos);
+    qDebug() << item->text(0);
+    qDebug() << item->parent()->text(0);
     if(action->text() == "删除文件")
     {
     qDebug() << "hh";
