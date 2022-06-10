@@ -1,4 +1,5 @@
 ﻿#include "filetree.h"
+#define qout qDebug()
 
 FileTree::FileTree(QWidget *parent):QTreeWidget(parent)
 {
@@ -36,7 +37,7 @@ FileTree::FileTree(QWidget *parent):QTreeWidget(parent)
 
 void FileTree::flush()
 {
-    vector<CourseFile> files = cfm.filter_file([](CourseFile file){return true;});
+    vector<CourseFile> files = cfm.filter_file();
     vector<QString> subject;
     QString sub_name;
     for(auto i = files.begin() ; i != files.end() ; i ++)
@@ -110,6 +111,7 @@ void FileTree::item_clicked_slot(QTreeWidgetItem* parent_item)//----------------
 void FileTree::show_menu(QPoint pos)
 {
      QTreeWidgetItem* item = this->itemAt(pos);
+     nowItem=item;
      if(item)
      {
          if(item->type() == DIR)
@@ -127,14 +129,23 @@ void FileTree::show_menu(QPoint pos)
 
 void FileTree::tempActionInformation(QAction *action)//--------------------------------一堆操作
 {
-    if(action->text() == "删除文件")
-    {
-    qDebug() << "hh";
+    if(action->text() == "新建文件"){
+        qDebug() << "hh";
     }
     if(1)
     {
 
     }
+//    dir_menu->addAction("新建文件");
+//    dir_menu->addAction("重命名");
+//    dir_menu->addSeparator();
+//    dir_menu->addAction("新建文件夹");
+//    dir_menu->addAction("删除文件夹");
+//    // 创建右击文件的菜单栏
+//    file_menu = new QMenu();
+//    file_menu->addAction("修改信息");
+//    file_menu->addAction("删除文件");
+//    file_menu->addAction("打开所在文件夹");
 }
 
 FileTree::~FileTree()
