@@ -58,7 +58,7 @@ public:
 
 class MyWatcher: public QObject{
     QString watch_path;
-    QFileSystemWatcher *watcher;
+    //QFileSystemWatcher *watcher;
 public:
     MyWatcher(QString _watch_path);
     void transfer_files();

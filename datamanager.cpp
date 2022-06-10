@@ -108,8 +108,8 @@ bool CourseFileManager::transform_file(std::function<CourseFile(CourseFile)> fun
         QString pre_path=cf.get_path();
         auto new_cf=func(cf);
         new_cf.upd_time();
-        if(move_file(pre_path,new_cf.get_dir(),new_cf.get_name()))
-            cf=new_cf;
+        if(!move_file(pre_path,new_cf.get_dir(),new_cf.get_name())) return 0;
+        cf=new_cf;
     }
     return 1;
 }
