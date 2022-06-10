@@ -15,7 +15,8 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     jsoncpp.cpp \
-    datamanager.cpp
+    datamanager.cpp \
+    noteswidget.cpp
 
 HEADERS += \
     addfiledialog.h \
@@ -23,7 +24,8 @@ HEADERS += \
     filterwidget.h \
     mainwindow.h \
     json/json.h \
-    datamanager.h
+    datamanager.h \
+    noteswidget.h
 
 FORMS += \
     addfiledialog.ui \
