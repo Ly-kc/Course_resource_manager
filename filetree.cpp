@@ -114,11 +114,7 @@ void FileTree::show_menu(QPoint pos)
 {
      curr_pos = pos;
      QTreeWidgetItem* item = this->itemAt(pos);
-<<<<<<< HEAD
-     nowItem=  item;
-=======
      nowItem=item;
->>>>>>> gitea/jxl-dev3
      if(item)
      {
          if(item->type() == DIR)
@@ -142,12 +138,6 @@ CourseFile get_cf_from_item(QTreeWidgetItem* item){
 
 void FileTree::tempActionInformation(QAction *action)//--------------------------------一堆操作
 {
-<<<<<<< HEAD
-    if(action->text() == "删除文件")
-    {
-        qDebug() << "hh";
-
-=======
     if(action->text() == "打开文件"){
         cfm.open_file(get_cf_from_item(nowItem));
         this->flush();
@@ -155,7 +145,6 @@ void FileTree::tempActionInformation(QAction *action)//-------------------------
     if(action->text() == "删除文件"){
         cfm.erase_file(get_cf_from_item(nowItem));
         this->flush();
->>>>>>> gitea/jxl-dev3
     }
     if(1)
     {
