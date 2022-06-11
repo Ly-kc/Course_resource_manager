@@ -6,9 +6,14 @@
 #include<QDir>
 #include<QFile>
 #include<QFileSystemWatcher>
+#include<QUrl>
+#include<QDesktopServices>
+#ifndef qout
+#define qout qDebug()
+#endif
 using std::string;
-const string glob_dir="C:\\Users\\win\\Desktop\\233";
-const string trans_dir="C:\\Users\\win\\Desktop\\形策";
+const string glob_dir="D:\\University\\term0";
+const string trans_dir="D:\\University\\trans";
 const QString time_format="yyyy/MM/dd HH:mm:ss";
 bool rmv_file(QString file_path){
     if(!QFileInfo::exists(file_path)) return 0;
@@ -54,6 +59,7 @@ void CourseFile::set_type(QString new_type)      {type=new_type.toStdString();}
 void CourseFile::set_name(QString new_name)      {name=new_name.toStdString();}
 void CourseFile::set_prior(int new_prior)        {prior=new_prior;}
 void CourseFile::set_freq(int new_freq)          {freq=new_freq;}
+
 bool operator == (const CourseFile&cf0,const CourseFile&cf1){
     return cf0.get_path()==cf1.get_path();
 }
@@ -65,6 +71,17 @@ QDebug operator << (QDebug qd,CourseFile cf){
     qd<<cf.time.toString(time_format);
     return qd;
 }
+
+CourseFile retrieve(QString path){
+    auto fi=QFileInfo(path);
+    auto name=fi.fileName();
+    auto dir=fi.absoluteDir();
+    auto type=dir.dirName();
+    dir.cdUp();
+    auto subject=dir.dirName();
+    return CourseFile(subject,type,name);
+}
+
 //construct cfm from json file
 CourseFileManager::CourseFileManager(){
     std::ifstream ifs("course_info.json");
@@ -80,21 +97,53 @@ CourseFileManager::CourseFileManager(){
             cur["freq"].asInt(),
             QDateTime::fromString(QString::fromStdString(cur["time"].asString()),time_format)
         );
-        if(QFileInfo::exists(cf.get_path()))
-            courses.push_back(cf);
+        courses.push_back(cf);
     }
+    check_files();
 }
+
+bool CourseFileManager::exists(CourseFile cf){
+    return std::find(courses.begin(),courses.end(),cf)!=courses.end();
+}
+
+bool CourseFileManager::open_file(CourseFile cf){
+    if(!exists((cf))) return 0;
+    transform_file([&](CourseFile x){
+        QDesktopServices::openUrl(QUrl("file:///"+cf.get_path(), QUrl::TolerantMode));
+        return x;
+    },[&](CourseFile x){
+        return x==cf;
+    });
+    return 1;
+}
+
 bool CourseFileManager::add_file(QString file_path,CourseFile cf){
     cf.upd_time();
-    if(!copy_file(file_path,cf.get_dir(),cf.get_name())) return 0;
+    if(file_path!=cf.get_path() &&
+       !move_file(file_path,cf.get_dir(),cf.get_name())) return 0;
     courses.push_back(cf);
     return 1;
 }
+
 bool CourseFileManager::erase_file(CourseFile cf){
     if(!rmv_file(cf.get_path())) return 0;
     courses.erase(std::remove(courses.begin(),courses.end(),cf),courses.end());
     return 1;
 }
+
+bool CourseFileManager::new_folder(QString dir_path){
+    return QDir().mkpath(dir_path);
+}
+
+bool CourseFileManager::new_file(CourseFile cf){
+    if(!exists(cf)){
+        courses.push_back(cf);
+        QDir().mkpath(cf.get_dir());
+        return QFile(cf.get_path()).open(QIODevice::WriteOnly);
+    }
+    return 0;
+}
+
 //return a list of coursefiles using filt (returns ture defaultly)
 vector<CourseFile> CourseFileManager::filter_file(std::function<bool(CourseFile)> filt){
     vector<CourseFile> ret;
@@ -105,14 +154,22 @@ vector<CourseFile> CourseFileManager::filter_file(std::function<bool(CourseFile)
 bool CourseFileManager::transform_file(std::function<CourseFile(CourseFile)> func,
                                        std::function<bool(CourseFile)> filt){
     for(CourseFile&cf:courses)if(filt(cf)){
-        QString pre_path=cf.get_path();
+        cf.upd_time();
         auto new_cf=func(cf);
-        new_cf.upd_time();
-        if(!move_file(pre_path,new_cf.get_dir(),new_cf.get_name())) return 0;
+        if(!move_file(cf.get_path(),new_cf.get_dir(),new_cf.get_name())) return 0;
         cf=new_cf;
     }
     return 1;
 }
+
+void CourseFileManager::check_files(){
+    auto tmp=courses;
+    for(auto cf:tmp){
+        if(!QFileInfo::exists(cf.get_path()))
+            courses.erase(std::remove(courses.begin(),courses.end(),cf),courses.end());
+    }
+}
+
 CourseFileManager::~CourseFileManager(){
     qDebug()<<"destruction";
     std::ofstream opt("course_info.json");
@@ -129,18 +186,34 @@ CourseFileManager::~CourseFileManager(){
     }
     opt<<course_list;
 }
+
 CourseFileManager cfm;
-MyWatcher::MyWatcher(QString _watch_path){
-    watch_path=_watch_path;
+
+MyWatcher::MyWatcher(QString _main_path,QString _trans_path){
+    main_path=_main_path;
+    trans_path=_trans_path;
 //    watcher=new QFileSystemWatcher;
 //    watcher->addPath(watch_path);
 //    connect(watcher,&QFileSystemWatcher::directoryChanged,this,&MyWatcher::transfer_files);
 }
 void MyWatcher::transfer_files(){
-    QFileInfoList file_list=QDir(watch_path).entryInfoList(QDir::Files);
+    auto file_list=QDir(trans_path).entryInfoList(QDir::Files);
     for(auto fi:file_list){
         auto cf=get_course_file(fi.fileName());
         cfm.add_file(fi.absoluteFilePath(),cf);
     }
+    auto dir_list=QDir(main_path).entryInfoList(QDir::Dirs|QDir::NoDotAndDotDot);
+    for(auto di:dir_list){
+        auto subdir_list=QDir(di.absoluteFilePath()).entryInfoList(QDir::Dirs|QDir::NoDotAndDotDot);
+        for(auto sdi:subdir_list){
+            file_list=QDir(sdi.absoluteFilePath()).entryInfoList(QDir::Files);
+            for(auto fi:file_list){
+                CourseFile cf=retrieve(fi.absoluteFilePath());
+                if(!cfm.exists(cf)) cfm.add_file(cf.get_path(),cf);
+            }
+        }
+    }
+    cfm.check_files();
 }
-MyWatcher mw(QString::fromStdString(trans_dir));
+
+MyWatcher mw(QString::fromStdString(glob_dir),QString::fromStdString(trans_dir));

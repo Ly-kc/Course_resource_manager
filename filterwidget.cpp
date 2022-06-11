@@ -52,7 +52,7 @@ FilterWidget::FilterWidget(QWidget *parent) : QWidget(parent)
 
 void FilterWidget::init_combo()
 {
-    vector<CourseFile> files = cfm.filter_file([&](CourseFile file){return true;});
+    vector<CourseFile> files = cfm.filter_file();
     for(auto i = files.begin() ; i != files.end() ; i ++)
     {
         CourseFile file = *i;
@@ -79,7 +79,7 @@ void FilterWidget::init_combo()
 
 void FilterWidget::init_result()//--------------------------------------------------------能否点表头则全显示
 {
-    vector<CourseFile> files = cfm.filter_file([&](CourseFile file){return true;});
+    vector<CourseFile> files = cfm.filter_file();
     QStringList heads;
     //heads << "文件名"<< "学科" << "类型" << "上次时间" << "路径";
     heads << "文件名"<< "学科" << "类型" << "上次时间";

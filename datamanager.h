@@ -13,6 +13,8 @@
 using std::string;
 using std::vector;
 
+extern const string glob_dir,trans_dir;
+
 class CourseFileManager;
 
 class CourseFile{
@@ -44,23 +46,30 @@ public:
     friend QDebug operator << (QDebug qd,CourseFile cf);
 };//path format : root/$subject/$type/$name
 
+CourseFile retrieve(QString path);
+
 class CourseFileManager{
     vector<CourseFile> courses;
 public:
     CourseFileManager();// read json file
+    bool exists(CourseFile cf);
+    bool open_file(CourseFile cf);
     bool add_file(QString file_path,CourseFile cf);
     bool erase_file(CourseFile cf);
+    bool new_folder(QString dir_path);
+    bool new_file(CourseFile cf);
     vector<CourseFile> filter_file(std::function<bool(CourseFile)> filt=[](CourseFile){return true;});
     bool transform_file(std::function<CourseFile(CourseFile)> func,
                         std::function<bool(CourseFile)> filt=[](CourseFile){return true;});
+    void check_files();
     ~CourseFileManager();// write json file
 };
 
 class MyWatcher: public QObject{
-    QString watch_path;
+    QString main_path,trans_path;
     //QFileSystemWatcher *watcher;
 public:
-    MyWatcher(QString _watch_path);
+    MyWatcher(QString _main_path,QString _trans_path);
     void transfer_files();
 };
 

@@ -1,4 +1,5 @@
 ﻿#include "filetree.h"
+#define qout qDebug()
 
 FileTree::FileTree(QWidget *parent):QTreeWidget(parent)
 {
@@ -24,6 +25,7 @@ FileTree::FileTree(QWidget *parent):QTreeWidget(parent)
     file_menu = new QMenu();
     file_menu->addAction("修改信息");
     file_menu->addAction("删除文件");
+    file_menu->addAction("打开文件");
     file_menu->addAction("打开所在文件夹");
     flush();
     this->setContextMenuPolicy(Qt::CustomContextMenu); //右键单击
@@ -37,7 +39,7 @@ FileTree::FileTree(QWidget *parent):QTreeWidget(parent)
 void FileTree::flush()
 {
     this->clear();
-    vector<CourseFile> files = cfm.filter_file([](CourseFile file){return true;});
+    vector<CourseFile> files = cfm.filter_file();
     vector<QString> subject;
     QString sub_name;
     for(auto i = files.begin() ; i != files.end() ; i ++)
@@ -112,7 +114,11 @@ void FileTree::show_menu(QPoint pos)
 {
      curr_pos = pos;
      QTreeWidgetItem* item = this->itemAt(pos);
+<<<<<<< HEAD
      nowItem=  item;
+=======
+     nowItem=item;
+>>>>>>> gitea/jxl-dev3
      if(item)
      {
          if(item->type() == DIR)
@@ -128,17 +134,43 @@ void FileTree::show_menu(QPoint pos)
      }
 }
 
+CourseFile get_cf_from_item(QTreeWidgetItem* item){
+    auto vec=cfm.filter_file([&](CourseFile cf){return cf.get_path()==item->toolTip(0);});
+    return vec[0];
+}
+
+
 void FileTree::tempActionInformation(QAction *action)//--------------------------------一堆操作
 {
+<<<<<<< HEAD
     if(action->text() == "删除文件")
     {
         qDebug() << "hh";
 
+=======
+    if(action->text() == "打开文件"){
+        cfm.open_file(get_cf_from_item(nowItem));
+        this->flush();
+    }
+    if(action->text() == "删除文件"){
+        cfm.erase_file(get_cf_from_item(nowItem));
+        this->flush();
+>>>>>>> gitea/jxl-dev3
     }
     if(1)
     {
 
     }
+//    dir_menu->addAction("新建文件");
+//    dir_menu->addAction("重命名");
+//    dir_menu->addSeparator();
+//    dir_menu->addAction("新建文件夹");
+//    dir_menu->addAction("删除文件夹");
+//    // 创建右击文件的菜单栏
+//    file_menu = new QMenu();
+//    file_menu->addAction("修改信息");
+//    file_menu->addAction("删除文件");
+//    file_menu->addAction("打开所在文件夹");
 }
 
 FileTree::~FileTree()
