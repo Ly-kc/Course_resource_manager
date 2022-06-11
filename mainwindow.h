@@ -13,7 +13,7 @@
 #include<filterwidget.h>
 #include<addfiledialog.h>
 #include<filetree.h>
-
+#include<noteswidget.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -33,9 +33,14 @@ public:
 private:
     Ui::MainWindow *ui;
     FilterWidget* filter_widget;
+    FilterWidget* sub_filter_widget;
     FileTree* file_tree;  //文件树
     QWidget* central_widget; //中部组件
     QPushButton* transfer_button; //转运按钮
+    QPushButton* notes_button;
+    QPushButton* course_table_button;
+    QPushButton* website_button;
+    QPushButton* magic_button;
     void trans_files();
 };
 #endif // MAINWINDOW_H

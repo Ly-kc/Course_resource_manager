@@ -7,13 +7,15 @@ FilterWidget::FilterWidget(QWidget *parent) : QWidget(parent)
     table_layout = new QHBoxLayout;//whole_layout下部
     combo_layout = new QHBoxLayout;//head_layout右部
     //完成table_layout
-    file_table = new QTableWidget(20,5);//-----------------------------------------------槽函数待添加
+//    file_table = new QTableWidget(20,5);//-----------------------------------------------槽函数待添加(右键）
+    file_table = new QTableWidget(20,4);
     file_table->setHorizontalScrollMode(QAbstractItemView::ScrollPerPixel);
     file_table->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     file_table->setAutoScroll(true);
     table_layout->addWidget(file_table,10);
     file_table->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);//单元格宽度自动拉伸
     file_table->setSelectionBehavior(QAbstractItemView::SelectRows);
+    file_table->horizontalHeader()->setSectionResizeMode(3, QHeaderView::ResizeToContents);
     //完成head
     filter_button = new QPushButton;
     filter_button->setText("筛选");
@@ -79,7 +81,8 @@ void FilterWidget::init_result()//----------------------------------------------
 {
     vector<CourseFile> files = cfm.filter_file([&](CourseFile file){return true;});
     QStringList heads;
-    heads << "文件名"<< "学科" << "类型" << "上次时间" << "路径";
+    //heads << "文件名"<< "学科" << "类型" << "上次时间" << "路径";
+    heads << "文件名"<< "学科" << "类型" << "上次时间";
     file_table->setHorizontalHeaderLabels(heads);
     QTableWidgetItem* info_item;
     for(auto i = files.begin() ; i != files.end() ; i ++)
@@ -95,10 +98,8 @@ void FilterWidget::init_result()//----------------------------------------------
         file_table->setItem(row,2,info_item);
         info_item = new QTableWidgetItem(file.get_time().toString("yyyy/MM/dd HH:mm:ss"));
         file_table->setItem(row,3,info_item);
-        info_item = new QTableWidgetItem(file.get_path());
-        file_table->setItem(row,4,info_item);
-//        QWidgetItem file_item()
-//                setItem(int row, int column, QTableWidgetItem *item)setColumnWidth(int column, int width)
+//        info_item = new QTableWidgetItem(file.get_path());
+//        file_table->setItem(row,4,info_item);
     }
 }
 
@@ -134,8 +135,8 @@ void FilterWidget::show_result()//----------------------------------------------
         file_table->setItem(row,2,info_item);
         info_item = new QTableWidgetItem(file.get_time().toString("yyyy/MM/dd HH:mm:ss"));
         file_table->setItem(row,3,info_item);
-        info_item = new QTableWidgetItem(file.get_path());
-        file_table->setItem(row,4,info_item);
+//        info_item = new QTableWidgetItem(file.get_path());
+//        file_table->setItem(row,4,info_item);
     }
 }
 
@@ -143,4 +144,10 @@ void FilterWidget::click_cell_slot(int row , int colum)
 {
     if(file_table->horizontalHeader()->sectionResizeMode(colum) != 3)
         file_table->horizontalHeader()->setSectionResizeMode(colum, QHeaderView::ResizeToContents);     //然后设置要根据内容使用宽度的列
+    else
+    {
+        qDebug() << colum;
+        file_table->horizontalHeader()->setSectionResizeMode(colum, QHeaderView::Interactive);
+        file_table->setColumnWidth(colum,120);
+    }
 }
