@@ -53,6 +53,7 @@ class CourseFileManager{
 public:
     CourseFileManager();// read json file
     bool exists(CourseFile cf);
+    bool open_file(CourseFile cf);
     bool add_file(QString file_path,CourseFile cf);
     bool erase_file(CourseFile cf);
     bool new_folder(QString dir_path);

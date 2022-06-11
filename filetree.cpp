@@ -25,6 +25,7 @@ FileTree::FileTree(QWidget *parent):QTreeWidget(parent)
     file_menu = new QMenu();
     file_menu->addAction("修改信息");
     file_menu->addAction("删除文件");
+    file_menu->addAction("打开文件");
     file_menu->addAction("打开所在文件夹");
     flush();
     this->setContextMenuPolicy(Qt::CustomContextMenu); //右键单击
@@ -129,14 +130,21 @@ void FileTree::show_menu(QPoint pos)
      }
 }
 
+CourseFile get_cf_from_item(QTreeWidgetItem* item){
+    auto vec=cfm.filter_file([&](CourseFile cf){return cf.get_path()==item->toolTip(0);});
+    return vec[0];
+}
+
+
 void FileTree::tempActionInformation(QAction *action)//--------------------------------一堆操作
 {
-    QTreeWidgetItem* item = this->itemAt(curr_pos);
-    qDebug() << item->text(0);
-    qDebug() << item->parent()->text(0);
-    if(action->text() == "删除文件")
-    {
-    qDebug() << "hh";
+    if(action->text() == "打开文件"){
+        cfm.open_file(get_cf_from_item(nowItem));
+        this->flush();
+    }
+    if(action->text() == "删除文件"){
+        cfm.erase_file(get_cf_from_item(nowItem));
+        this->flush();
     }
     if(1)
     {

@@ -6,6 +6,8 @@
 #include<QDir>
 #include<QFile>
 #include<QFileSystemWatcher>
+#include<QUrl>
+#include<QDesktopServices>
 #ifndef qout
 #define qout qDebug()
 #endif
@@ -104,6 +106,17 @@ bool CourseFileManager::exists(CourseFile cf){
     return std::find(courses.begin(),courses.end(),cf)!=courses.end();
 }
 
+bool CourseFileManager::open_file(CourseFile cf){
+    if(!exists((cf))) return 0;
+    transform_file([&](CourseFile x){
+        QDesktopServices::openUrl(QUrl("file:///"+cf.get_path(), QUrl::TolerantMode));
+        return x;
+    },[&](CourseFile x){
+        return x==cf;
+    });
+    return 1;
+}
+
 bool CourseFileManager::add_file(QString file_path,CourseFile cf){
     cf.upd_time();
     if(file_path!=cf.get_path() &&
@@ -141,8 +154,8 @@ vector<CourseFile> CourseFileManager::filter_file(std::function<bool(CourseFile)
 bool CourseFileManager::transform_file(std::function<CourseFile(CourseFile)> func,
                                        std::function<bool(CourseFile)> filt){
     for(CourseFile&cf:courses)if(filt(cf)){
+        cf.upd_time();
         auto new_cf=func(cf);
-        new_cf.upd_time();
         if(!move_file(cf.get_path(),new_cf.get_dir(),new_cf.get_name())) return 0;
         cf=new_cf;
     }
