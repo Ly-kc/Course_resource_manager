@@ -15,13 +15,13 @@ using std::string;
 const string glob_dir="D:\\University\\term0";
 const string trans_dir="D:\\University\\trans";
 const QString time_format="yyyy/MM/dd HH:mm:ss";
-bool rmv_file(QString file_path){
+bool rmv_file(QString file_path,bool rmv_dir){
     if(!QFileInfo::exists(file_path)) return 0;
     //qDebug()<<file_path;
     QFileInfo fi(file_path);
     QString cur_dir=fi.absolutePath();
     if(!QDir().remove(file_path)) return 0;
-    QDir().rmpath(cur_dir);
+    if(rmv_dir) QDir().rmpath(cur_dir);
     return 1;
 }
 bool copy_file(QString from_path,QString to_dir,QString fname){
@@ -34,8 +34,8 @@ bool copy_file(QString from_path,QString to_dir,QString fname){
     QFile::copy(from_path,to_path);
     return 1;
 }
-bool move_file(QString from_path,QString to_dir,QString fname){
-    return copy_file(from_path,to_dir,fname) && rmv_file(from_path);
+bool move_file(QString from_path,QString to_dir,QString fname,bool rmv_dir){
+    return copy_file(from_path,to_dir,fname) && rmv_file(from_path,rmv_dir);
 }
 CourseFile::CourseFile(std::string _subject, std::string _type, std::string _name,
                        int _prior,int _freq,QDateTime _time):
@@ -120,13 +120,13 @@ bool CourseFileManager::open_file(CourseFile cf){
 bool CourseFileManager::add_file(QString file_path,CourseFile cf){
     cf.upd_time();
     if(file_path!=cf.get_path() &&
-       !move_file(file_path,cf.get_dir(),cf.get_name())) return 0;
+       !move_file(file_path,cf.get_dir(),cf.get_name(),0)) return 0;//change here to alter transfer behavior
     courses.push_back(cf);
     return 1;
 }
 
 bool CourseFileManager::erase_file(CourseFile cf){
-    if(!rmv_file(cf.get_path())) return 0;
+    if(!rmv_file(cf.get_path(),1)) return 0;
     courses.erase(std::remove(courses.begin(),courses.end(),cf),courses.end());
     return 1;
 }
@@ -156,7 +156,7 @@ bool CourseFileManager::transform_file(std::function<CourseFile(CourseFile)> fun
     for(CourseFile&cf:courses)if(filt(cf)){
         cf.upd_time();
         auto new_cf=func(cf);
-        if(!move_file(cf.get_path(),new_cf.get_dir(),new_cf.get_name())) return 0;
+        if(!move_file(cf.get_path(),new_cf.get_dir(),new_cf.get_name(),1)) return 0;
         cf=new_cf;
     }
     return 1;
