@@ -6,6 +6,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    table_num = 1;
     QHBoxLayout* whole_layout = new QHBoxLayout;
     QVBoxLayout* left_layout = new QVBoxLayout;
     QVBoxLayout* middle_layout = new QVBoxLayout;
@@ -47,6 +48,8 @@ MainWindow::MainWindow(QWidget *parent)
     this->setCentralWidget(central_widget);
 
     connect(transfer_button,&QPushButton::clicked,this,&MainWindow::trans_files);
+    connect(filter_widget,&FilterWidget::add_table_signal,this,&MainWindow::add_table);
+    connect(filter_widget,&FilterWidget::del_table_signal,this,&MainWindow::del_table);
 }
 
 void MainWindow::trans_files()
@@ -54,6 +57,16 @@ void MainWindow::trans_files()
     mw.transfer_files();
     file_tree->flush();
     filter_widget->show_result();
+}
+
+void MainWindow::add_table()
+{
+    qDebug() << "add";
+}
+
+void MainWindow::del_table()
+{
+
 }
 
 MainWindow::~MainWindow()

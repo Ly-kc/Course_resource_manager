@@ -30,12 +30,18 @@ public:
     QTableWidget* file_table;
     QStringList subjects;
     QStringList types;
+    QMenu* menu;
+    QTableWidgetItem* curr_item;
     void show_result(); //显示筛选结果
     void init_combo();
     void init_result(); //显示所有文件
     void click_cell_slot(int row , int colum);
+    void open_file(int row , int colum);
+    void action_reflect(QAction* action);
+    void show_menu(QPoint pos);
 signals:
-
+    void add_table_signal();
+    void del_table_signal();
 };
 
 #endif // FILTERWIDGET_H

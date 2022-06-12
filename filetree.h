@@ -27,6 +27,7 @@ public:
     void item_clicked_slot(QTreeWidgetItem* parent_item); //左键展开
     void show_menu(QPoint pos);  //右键菜单
     void tempActionInformation(QAction* action); //菜单动作响应
+    void expand_to_item(QTreeWidgetItem* item);
 };
 
 #endif // FILETREE_H

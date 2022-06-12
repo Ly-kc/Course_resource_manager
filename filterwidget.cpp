@@ -16,6 +16,13 @@ FilterWidget::FilterWidget(QWidget *parent) : QWidget(parent)
     file_table->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);//单元格宽度自动拉伸
     file_table->setSelectionBehavior(QAbstractItemView::SelectRows);
     file_table->horizontalHeader()->setSectionResizeMode(3, QHeaderView::ResizeToContents);
+    file_table->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    file_table->setContextMenuPolicy(Qt::CustomContextMenu); //右键单击
+    //完成menu
+    menu = new QMenu;
+    menu->addAction("修改文件信息");
+    menu->addAction("新增筛选窗口");
+    menu->addAction("删除筛选窗口");
     //完成head
     filter_button = new QPushButton;
     filter_button->setText("筛选");
@@ -48,6 +55,9 @@ FilterWidget::FilterWidget(QWidget *parent) : QWidget(parent)
     connect(time_filter,static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged),this,&FilterWidget::show_result);
     connect(prior_filter,static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged),this,&FilterWidget::show_result);
     connect(file_table,&QTableWidget::cellClicked,this,&FilterWidget::click_cell_slot);
+    connect(file_table,&QTableWidget::customContextMenuRequested,this,&FilterWidget::show_menu);//右键单击
+    connect(menu,&QMenu::triggered,this,&FilterWidget::action_reflect);
+    connect(file_table,&QTableWidget::cellDoubleClicked,this,&FilterWidget::open_file);
 }
 
 void FilterWidget::init_combo()
@@ -72,12 +82,12 @@ void FilterWidget::init_combo()
     QStringList priority;
     priority << "所有优先级" << ">=1" << ">=2" << ">=3";
     QStringList times;
-    times << "所有时间" << "今日" << "昨日" << "三天内";
+    times << "所有时间" << "今日" << "两天内" << "三天内";
     prior_filter->addItems(priority);
     time_filter->addItems(times);
 }
 
-void FilterWidget::init_result()//--------------------------------------------------------能否点表头则全显示
+void FilterWidget::init_result()
 {
     vector<CourseFile> files = cfm.filter_file();
     QStringList heads;
@@ -109,18 +119,20 @@ void FilterWidget::show_result()//----------------------------------------------
     QString subject = sub_filter->currentText();
     QString type = type_filter->currentText();
     int priority = prior_filter->currentIndex();
+    int days = time_filter->currentIndex();
     auto filter = [&](CourseFile file){
         if(name!="" && name != file.get_name()) return false;
         if(subject != "所有学科" && subject != file.get_subject()) return false;
         if(type != "所有类型" && type != file.get_type()) return false;
         if(priority > file.get_prior()) return false;
+        if(file.get_time().addDays(days).date() <= QDateTime::currentDateTime().date()) return false;
         return true;
     };
     vector<CourseFile> files = cfm.filter_file(filter);
     QTableWidgetItem* info_item;
     file_table->clear();
     QStringList heads;
-    heads << "文件名"<< "学科" << "类型" << "上次时间" << "路径";
+    heads << "文件名"<< "学科" << "类型" << "上次时间";       //<< "路径";
     file_table->setHorizontalHeaderLabels(heads);
     for(auto i = files.begin() ; i != files.end() ; i ++)
     {
@@ -150,4 +162,41 @@ void FilterWidget::click_cell_slot(int row , int colum)
         file_table->horizontalHeader()->setSectionResizeMode(colum, QHeaderView::Interactive);
         file_table->setColumnWidth(colum,120);
     }
+}
+
+void FilterWidget::open_file(int row , int colum)
+{
+    QTableWidgetItem* info_item = file_table->item(row,0);
+    QString name = info_item->text();
+    info_item = file_table->item(row,1);
+    QString subject = info_item->text();
+    info_item = file_table->item(row,2);
+    QString type = info_item->text();
+    vector<CourseFile> files = cfm.filter_file([&](CourseFile file){
+         if(file.get_name() != name || file.get_subject() != subject || file.get_type() != type) return false;
+         return true;
+    });
+    if(files.size() > 0) cfm.open_file(files[0]);
+}
+
+void FilterWidget::show_menu(QPoint pos)
+{
+     QTableWidgetItem* item = file_table->itemAt(pos);
+     qDebug() << "1"<<item->text();
+     if(item)
+     {
+        curr_item = item;
+     }
+     menu->move(this->cursor().pos());
+     menu->show();
+}
+
+void FilterWidget::action_reflect(QAction *action) //-------------------------------------------待完善
+{
+    if(action->text() == "修改文件信息")
+    {
+        qDebug() << "houhou";
+    }
+    if(action->text() == "新增筛选窗口") emit add_table_signal();
+    if(action->text() == "删除筛选窗口") emit del_table_signal();
 }
