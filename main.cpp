@@ -6,7 +6,7 @@
 #include "mainwindow.h"
 #include "json/json.h"
 #include "datamanager.h"
-
+#include<statchart.h>
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);

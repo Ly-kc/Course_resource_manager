@@ -1,4 +1,5 @@
 QT       += core gui
+QT       += charts
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -16,7 +17,9 @@ SOURCES += \
     mainwindow.cpp \
     jsoncpp.cpp \
     datamanager.cpp \
-    noteswidget.cpp
+    noteswidget.cpp \
+    statchart.cpp \
+    weblist.cpp
 
 HEADERS += \
     addfiledialog.h \
@@ -25,7 +28,9 @@ HEADERS += \
     mainwindow.h \
     json/json.h \
     datamanager.h \
-    noteswidget.h
+    noteswidget.h \
+    statchart.h \
+    weblist.h
 
 FORMS += \
     addfiledialog.ui \

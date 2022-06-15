@@ -6,6 +6,7 @@
 #include<QTableWidget>
 #include <QScrollArea>
 #include<QGroupBox>
+#include<regex>
 #include<datamanager.h>
 #include<datamanager.h>
 #include<addfiledialog.h>
@@ -39,6 +40,7 @@ public:
     void open_file(int row , int colum);
     void action_reflect(QAction* action);
     void show_menu(QPoint pos);
+    ~FilterWidget();
 signals:
     void add_table_signal();
     void del_table_signal();

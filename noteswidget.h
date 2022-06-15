@@ -14,6 +14,7 @@ public:
     explicit NotesWidget(QWidget *parent = nullptr);
     QPushButton* addnotes_button;
     QListWidget* notes_list;
+    ~NotesWidget();
 signals:
 
 };

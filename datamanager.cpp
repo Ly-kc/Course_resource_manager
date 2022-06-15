@@ -12,8 +12,8 @@
 #define qout qDebug()
 #endif
 using std::string;
-//const string glob_dir="D:\\University\\term0";
-//const string trans_dir="D:\\University\\trans";
+//const string glob_dir="C:\\Users\\win\\Desktop\\233";
+//const string trans_dir="C:\\Users\\win\\Desktop\\形策";
 const string glob_dir="C:\\Users\\win\\Desktop\\233";
 const string trans_dir="C:\\Users\\win\\Desktop\\形策";
 const QString time_format="yyyy/MM/dd HH:mm:ss";

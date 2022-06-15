@@ -130,7 +130,7 @@ void FileTree::show_menu(QPoint pos)
      }
 }
 
-void FileTree::expand_to_item(QTreeWidgetItem *item) //---------------------------------------谜之bug
+void FileTree::expand_to_item(QTreeWidgetItem *item) //---------------------------------------暂无用处、、
 {
     QTreeWidgetItem* parent_item= item;
     if(!parent_item) return;
@@ -157,14 +157,12 @@ CourseFile get_cf_from_item(QTreeWidgetItem* item){
 void FileTree::tempActionInformation(QAction *action)//--------------------------------一堆操作
 {
     qDebug() << "2"<<nowItem->text(0);
-    if(action->text() == "打开文件"){qDebug() << "3"<<nowItem->text(0);
-        cfm.open_file(get_cf_from_item(nowItem));qDebug() << "4"<<nowItem->text(0);
-        this->flush();expand_to_item(nowItem);
+    if(action->text() == "打开文件"){
+        cfm.open_file(get_cf_from_item(nowItem));
     }
     if(action->text() == "删除文件"){
         cfm.erase_file(get_cf_from_item(nowItem));
-        this->flush();
-        expand_to_item(nowItem);
+        delete nowItem;
     }
     if(1)
     {

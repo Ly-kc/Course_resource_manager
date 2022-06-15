@@ -20,3 +20,8 @@ NotesWidget::NotesWidget(QWidget *parent) : QWidget(parent)
     whole_layout->addStretch(1);
     this->setLayout(whole_layout);
 }
+
+NotesWidget::~NotesWidget()
+{
+
+}

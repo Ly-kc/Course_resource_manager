@@ -120,8 +120,12 @@ void FilterWidget::show_result()//----------------------------------------------
     QString type = type_filter->currentText();
     int priority = prior_filter->currentIndex();
     int days = time_filter->currentIndex();
+    if(days == 0) days = (1<<30);
     auto filter = [&](CourseFile file){
-        if(name!="" && name != file.get_name()) return false;
+        std::regex name_reg(name.toStdString());
+        bool ret = std::regex_search(file.get_name().toStdString(), name_reg);
+        //if(name!="" && name != file.get_name()) return false;
+        if(name != "" && !ret) return false;
         if(subject != "所有学科" && subject != file.get_subject()) return false;
         if(type != "所有类型" && type != file.get_type()) return false;
         if(priority > file.get_prior()) return false;
@@ -182,9 +186,9 @@ void FilterWidget::open_file(int row , int colum)
 void FilterWidget::show_menu(QPoint pos)
 {
      QTableWidgetItem* item = file_table->itemAt(pos);
-     qDebug() << "1"<<item->text();
      if(item)
      {
+        qDebug() << "1"<<item->text();
         curr_item = item;
      }
      menu->move(this->cursor().pos());
@@ -199,4 +203,9 @@ void FilterWidget::action_reflect(QAction *action) //---------------------------
     }
     if(action->text() == "新增筛选窗口") emit add_table_signal();
     if(action->text() == "删除筛选窗口") emit del_table_signal();
+}
+
+FilterWidget::~FilterWidget()
+{
+
 }
