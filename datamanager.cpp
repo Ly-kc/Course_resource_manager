@@ -24,18 +24,19 @@ bool rmv_file(QString file_path,bool rmv_dir){
     if(rmv_dir) QDir().rmpath(cur_dir);
     return 1;
 }
-bool copy_file(QString from_path,QString to_dir,QString fname){
+int copy_file(QString from_path,QString to_dir,QString fname){
     QString to_path=to_dir+fname;
-    if(from_path==to_path) return 0;//same path
+    if(from_path==to_path) return 2;//same path
     if(!QFileInfo::exists(from_path)) return 0;//source not exist
     //qDebug()<<from_path;
     QDir().mkpath(to_dir);
     if( QDir().exists(to_path)) QDir().remove(to_path);//same name exists
-    QFile::copy(from_path,to_path);
-    return 1;
+    return QFile::copy(from_path,to_path);
 }
 bool move_file(QString from_path,QString to_dir,QString fname,bool rmv_dir){
-    return copy_file(from_path,to_dir,fname) && rmv_file(from_path,rmv_dir);
+    int cp=copy_file(from_path,to_dir,fname);
+    if(cp==2) return 1;
+    return cp && rmv_file(from_path,rmv_dir);
 }
 CourseFile::CourseFile(std::string _subject, std::string _type, std::string _name,
                        int _prior,int _freq,QDateTime _time):
@@ -110,6 +111,7 @@ bool CourseFileManager::open_file(CourseFile cf){
     if(!exists((cf))) return 0;
     transform_file([&](CourseFile x){
         QDesktopServices::openUrl(QUrl("file:///"+cf.get_path(), QUrl::TolerantMode));
+        x.set_freq(x.get_freq()+1);
         return x;
     },[&](CourseFile x){
         return x==cf;
