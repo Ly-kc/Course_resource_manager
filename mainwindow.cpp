@@ -24,7 +24,7 @@ MainWindow::MainWindow(QWidget *parent)
     website_button = new QPushButton;
     website_button->setText("常用网址");
     course_table_button = new QPushButton;
-    course_table_button->setText("课表");
+    course_table_button->setText("课表");    //---------------------------------------------或改成最近打开
     chart_button = new QPushButton;
     chart_button->setText("学习统计");
     magic_button = new QPushButton;

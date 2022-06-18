@@ -50,7 +50,7 @@ StatChart::StatChart(QWidget *parent) : QWidget(parent)
     mLineSeries->setColor(QColor(255,0,0));
     //在底部显示
     mlegend->setAlignment(Qt::AlignBottom);
-    mlegend->show();
+    //mlegend->show();
     // 将图表绑定到视图 wiget 为 QChartView
     chartview->setRenderHint(QPainter::Antialiasing); //抗锯齿
     chartview->setChart(chart);

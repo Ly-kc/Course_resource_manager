@@ -36,7 +36,7 @@ public:
     void show_result(); //显示筛选结果
     void init_combo();
     void init_result(); //显示所有文件
-    void click_cell_slot(int row , int colum);
+    void click_header_slot(int colum);
     void open_file(int row , int colum);
     void action_reflect(QAction* action);
     void show_menu(QPoint pos);

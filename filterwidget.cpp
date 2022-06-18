@@ -54,7 +54,7 @@ FilterWidget::FilterWidget(QWidget *parent) : QWidget(parent)
     connect(type_filter,static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged),this,&FilterWidget::show_result);
     connect(time_filter,static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged),this,&FilterWidget::show_result);
     connect(prior_filter,static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged),this,&FilterWidget::show_result);
-    connect(file_table,&QTableWidget::cellClicked,this,&FilterWidget::click_cell_slot);
+    connect(file_table->horizontalHeader(),&QHeaderView::sectionPressed,this,&FilterWidget::click_header_slot);
     connect(file_table,&QTableWidget::customContextMenuRequested,this,&FilterWidget::show_menu);//右键单击
     connect(menu,&QMenu::triggered,this,&FilterWidget::action_reflect);
     connect(file_table,&QTableWidget::cellDoubleClicked,this,&FilterWidget::open_file);
@@ -156,13 +156,13 @@ void FilterWidget::show_result()//----------------------------------------------
     }
 }
 
-void FilterWidget::click_cell_slot(int row , int colum)
+void FilterWidget::click_header_slot(int colum)
 {
     if(file_table->horizontalHeader()->sectionResizeMode(colum) != 3)
         file_table->horizontalHeader()->setSectionResizeMode(colum, QHeaderView::ResizeToContents);     //然后设置要根据内容使用宽度的列
     else
     {
-        qDebug() << colum;
+        qDebug() << "cloum " <<colum;
         file_table->horizontalHeader()->setSectionResizeMode(colum, QHeaderView::Interactive);
         file_table->setColumnWidth(colum,120);
     }
@@ -171,6 +171,7 @@ void FilterWidget::click_cell_slot(int row , int colum)
 void FilterWidget::open_file(int row , int colum)
 {
     QTableWidgetItem* info_item = file_table->item(row,0);
+    if(!info_item) return;
     QString name = info_item->text();
     info_item = file_table->item(row,1);
     QString subject = info_item->text();
