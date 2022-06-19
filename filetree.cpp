@@ -47,7 +47,7 @@ void FileTree::flush()
         sub_name = i->get_subject();
         if(std::find(subject.begin(), subject.end(), sub_name) == subject.end())
         {
-            qDebug()<< sub_name;
+           // qDebug()<< sub_name;
             subject.push_back(sub_name);
             root = new QTreeWidgetItem(DIR);
             this->addTopLevelItem(root);
@@ -67,7 +67,7 @@ void FileTree::add_typeitem(QTreeWidgetItem* sub_item)
         QString file_type = i->get_type();
         if(std::find(types.begin(), types.end(), file_type) == types.end())
         {
-            qDebug() << file_type;
+           // qDebug() << file_type;
             types.push_back(file_type);
             QTreeWidgetItem* type_item = new QTreeWidgetItem(DIR);
             sub_item->addChild(type_item);
@@ -95,7 +95,7 @@ void FileTree::add_fileitem(QTreeWidgetItem *type_item)
 
 void FileTree::item_clicked_slot(QTreeWidgetItem* parent_item)//--------------------------------打开文件
 {
-    qDebug()<<"fashengshenmeshihou";
+    qDebug()<< parent_item->text(0) << " clicked";
     if(parent_item->childCount() > 0)
     {
         if(parent_item->isExpanded()) parent_item->setExpanded(false);
@@ -112,9 +112,9 @@ void FileTree::item_clicked_slot(QTreeWidgetItem* parent_item)//----------------
 
 void FileTree::show_menu(QPoint pos)
 {
-     curr_pos = pos;
      QTreeWidgetItem* item = this->itemAt(pos);
      nowItem=item;
+     //qDebug() << "1"<<nowItem->text(0);
      if(item)
      {
          if(item->type() == DIR)
@@ -130,6 +130,24 @@ void FileTree::show_menu(QPoint pos)
      }
 }
 
+void FileTree::expand_to_item(QTreeWidgetItem *item) //---------------------------------------暂无用处、、
+{
+    QTreeWidgetItem* parent_item= item;
+    if(!parent_item) return;
+    qDebug() << parent_item->text(0);
+    while(parent_item->parent() != NULL)
+    {
+        parent_item=parent_item->parent();
+        qDebug() << parent_item->text(0);
+    }
+   // qDebug() << parent_item->text(0);
+    parent_item->setExpanded(true);
+    if(item->type()==FILE)
+    {
+        item->parent()->setExpanded(true);
+    }
+}
+
 CourseFile get_cf_from_item(QTreeWidgetItem* item){
     auto vec=cfm.filter_file([&](CourseFile cf){return cf.get_path()==item->toolTip(0);});
     return vec[0];
@@ -138,13 +156,13 @@ CourseFile get_cf_from_item(QTreeWidgetItem* item){
 
 void FileTree::tempActionInformation(QAction *action)//--------------------------------一堆操作
 {
+    qDebug() << "2"<<nowItem->text(0);
     if(action->text() == "打开文件"){
         cfm.open_file(get_cf_from_item(nowItem));
-        this->flush();
     }
     if(action->text() == "删除文件"){
         cfm.erase_file(get_cf_from_item(nowItem));
-        this->flush();
+        delete nowItem;
     }
     if(1)
     {
