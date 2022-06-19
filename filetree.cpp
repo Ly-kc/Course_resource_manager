@@ -114,7 +114,7 @@ void FileTree::show_menu(QPoint pos)
 {
      QTreeWidgetItem* item = this->itemAt(pos);
      nowItem=item;
-     qDebug() << "1"<<nowItem->text(0);
+     //qDebug() << "1"<<nowItem->text(0);
      if(item)
      {
          if(item->type() == DIR)

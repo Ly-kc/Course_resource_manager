@@ -10,6 +10,10 @@
 #include<functional>
 #include<QFileSystemWatcher>
 
+#ifndef qout
+#define qout qDebug()
+#endif
+
 using std::string;
 using std::vector;
 

@@ -113,6 +113,13 @@ void FilterWidget::init_result()
     }
 }
 
+CourseFile FilterWidget::row_to_cf(int row){
+    auto sub=file_table->item(row,1)->text();
+    auto typ=file_table->item(row,2)->text();
+    auto nam=file_table->item(row,0)->text();
+    return CourseFile(sub,typ,nam);
+}
+
 void FilterWidget::show_result()//--------------------------------------------------------时间筛选待完善
 {
     QString name = name_edit->text();
@@ -162,7 +169,7 @@ void FilterWidget::click_header_slot(int colum)
         file_table->horizontalHeader()->setSectionResizeMode(colum, QHeaderView::ResizeToContents);     //然后设置要根据内容使用宽度的列
     else
     {
-        qDebug() << "cloum " <<colum;
+        //qDebug() << "cloum " <<colum;
         file_table->horizontalHeader()->setSectionResizeMode(colum, QHeaderView::Interactive);
         file_table->setColumnWidth(colum,120);
     }
@@ -189,7 +196,7 @@ void FilterWidget::show_menu(QPoint pos)
      QTableWidgetItem* item = file_table->itemAt(pos);
      if(item)
      {
-        qDebug() << "1"<<item->text();
+        //qDebug() << "1"<<item->text();
         curr_item = item;
      }
      menu->move(this->cursor().pos());
@@ -198,11 +205,27 @@ void FilterWidget::show_menu(QPoint pos)
 
 void FilterWidget::action_reflect(QAction *action) //-------------------------------------------待完善
 {
+    auto item=curr_item;
+    int row=item->row(),col=item->column();
+    auto cf=row_to_cf(row);
     if(action->text() == "修改文件信息")
     {
-        qDebug() << "houhou";
+        bool ok;
+        if(col>2) return;
+        QString lab = "输入新"+file_table->horizontalHeaderItem(col)->text();
+        QString text = QInputDialog::getText(this, tr("Fuck QT!"),
+                                                 lab, QLineEdit::Normal,
+                                                 item->text(), &ok);
+        if(ok && !text.isEmpty()){
+            qout<<text;
+            item->setText(text);
+            auto ncf=row_to_cf(row);
+            qout<<cf;
+            qout<<ncf;
+            cfm.transform_file([=](CourseFile){return ncf;},[=](CourseFile cur){return cur==cf;});
+        }
     }
-    if(action->text() == "新增筛选窗口") emit add_table_signal();
+    if(action->text() == "新增筛选窗口")  emit add_table_signal();
     if(action->text() == "删除筛选窗口") emit del_table_signal();
 }
 
