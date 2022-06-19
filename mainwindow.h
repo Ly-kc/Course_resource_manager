@@ -58,8 +58,13 @@ private:
     WebList* web_list;
     NotesWidget* stikey_notes;
     StatChart* charts;
+
     int table_num;
+
+    void glob_flush();
+
     void trans_files();
+    void mod_table();
     void add_table();
     void del_table();
     void show_notes();

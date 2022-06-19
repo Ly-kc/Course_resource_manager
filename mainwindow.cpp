@@ -55,6 +55,7 @@ MainWindow::MainWindow(QWidget *parent)
     this->setCentralWidget(central_widget);
 
     connect(transfer_button,&QPushButton::clicked,this,&MainWindow::trans_files);
+    connect(filter_widget,&FilterWidget::mod_table_signal,this,&MainWindow::mod_table);
     connect(filter_widget,&FilterWidget::add_table_signal,this,&MainWindow::add_table);
     connect(filter_widget,&FilterWidget::del_table_signal,this,&MainWindow::del_table);
     connect(chart_button,&QPushButton::clicked,this,&MainWindow::show_charts);
@@ -62,11 +63,20 @@ MainWindow::MainWindow(QWidget *parent)
     connect(website_button,&QPushButton::clicked,this,&MainWindow::show_websites);
 }
 
+void MainWindow::glob_flush(){
+   file_tree->flush();
+   filter_widget->show_result();
+   if(sub_filter_widget) sub_filter_widget->show_result();
+}
+
 void MainWindow::trans_files()
 {
     mw.transfer_files();
-    file_tree->flush();
-    filter_widget->show_result();
+    glob_flush();
+}
+
+void MainWindow::mod_table(){
+    glob_flush();
 }
 
 void MainWindow::add_table()

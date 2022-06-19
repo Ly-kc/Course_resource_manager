@@ -49,6 +49,7 @@ public:
     void show_menu(QPoint pos);
     ~FilterWidget();
 signals:
+    void mod_table_signal();
     void add_table_signal();
     void del_table_signal();
 };

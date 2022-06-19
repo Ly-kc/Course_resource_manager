@@ -224,6 +224,7 @@ void FilterWidget::action_reflect(QAction *action) //---------------------------
             qout<<ncf;
             cfm.transform_file([=](CourseFile){return ncf;},[=](CourseFile cur){return cur==cf;});
         }
+        emit mod_table_signal();
     }
     if(action->text() == "新增筛选窗口")  emit add_table_signal();
     if(action->text() == "删除筛选窗口") emit del_table_signal();
