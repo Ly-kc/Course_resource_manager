@@ -1,10 +1,7 @@
 ﻿#ifndef STATCHART_H
 #define STATCHART_H
 
-#include <QtCharts>
-#include <QChartView>
-#include <QChart>
-#include <QWidget>
+#include"QtHeaderFiles.h"
 #include<mainwindow.h>
 
 class StatChart : public QWidget

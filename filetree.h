@@ -1,13 +1,8 @@
 ﻿#ifndef FILETREE_H
 #define FILETREE_H
 
-#include<QTreeWidget>
-#include<QMenu>
-#include<QScrollBar>
-#include<QHeaderView>
-#include<QString>
+#include"QtHeaderFiles.h"
 #include<datamanager.h>
-#include<mainwindow.h>
 
 class FileTree:public QTreeWidget
 {

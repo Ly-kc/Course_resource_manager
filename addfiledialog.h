@@ -1,16 +1,7 @@
 ﻿#ifndef ADDFILEDIALOG_H
 #define ADDFILEDIALOG_H
 
-#include <QDialog>
-#include<QVBoxLayout>
-#include<QHBoxLayout>
-#include<QFormLayout>
-#include<QLineEdit>
-#include<QPushButton>
-#include<QComboBox>
-#include<QSlider>
-#include<QDebug>
-#include<mainwindow.h>
+#include"QtHeaderFiles.h"
 #include<datamanager.h>
 
 CourseFile get_course_file(QString name);

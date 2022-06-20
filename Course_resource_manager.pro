@@ -22,6 +22,7 @@ SOURCES += \
     weblist.cpp
 
 HEADERS += \
+    QtHeaderFiles.h \
     addfiledialog.h \
     filetree.h \
     filterwidget.h \

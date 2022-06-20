@@ -1,16 +1,10 @@
 ﻿#ifndef FILTERWIDGET_H
 #define FILTERWIDGET_H
 
-#include<QScrollBar>
-#include <QWidget>
-#include<QTableWidget>
-#include <QScrollArea>
-#include<QGroupBox>
-#include<regex>
-#include<datamanager.h>
+#include"QtHeaderFiles.h"
 #include<datamanager.h>
 #include<addfiledialog.h>
-#include<mainwindow.h>
+
 
 class FilterWidget : public QWidget
 {

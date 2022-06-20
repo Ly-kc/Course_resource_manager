@@ -17,6 +17,7 @@ MainWindow::MainWindow(QWidget *parent)
     file_tree = new FileTree;
     file_tree->setMinimumWidth(140);
     filter_widget = new FilterWidget;
+    sub_filter_widget = 0;
     transfer_button = new QPushButton;
     transfer_button->setText("中转文件");
     notes_button = new QPushButton;
@@ -86,6 +87,7 @@ void MainWindow::del_table()
     if(table_num == 2)
     {
         delete sub_filter_widget;
+        sub_filter_widget = 0;
         table_num --;
     }
 }

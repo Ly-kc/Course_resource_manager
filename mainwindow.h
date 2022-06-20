@@ -1,16 +1,8 @@
 ﻿#ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QMainWindow>
-#include <QFile>
-#include <QDir>
-#include <QDebug>
-#include <QLineEdit>
-#include <QFormLayout>
-#include <QPushButton>
-#include <QHBoxLayout>
-#include <QVBoxLayout>
-#include<QStackedLayout>
+#include<QMainWindow>
+#include"QtHeaderFiles.h"
 #include<filterwidget.h>
 #include<addfiledialog.h>
 #include<filetree.h>
