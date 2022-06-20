@@ -7,10 +7,22 @@
 #include <QScrollArea>
 #include<QGroupBox>
 #include<regex>
-#include<datamanager.h>
+#include <QMainWindow>
+#include <QFile>
+#include <QDir>
+#include <QDebug>
+#include <QLineEdit>
+#include <QFormLayout>
+#include <QPushButton>
+#include <QHBoxLayout>
+#include <QVBoxLayout>
+#include <QHeaderView>
+#include <QMenu>
+#include <QInputDialog>
+#include<QBoxLayout>
+#include<QStackedLayout>
 #include<datamanager.h>
 #include<addfiledialog.h>
-#include<mainwindow.h>
 
 #ifndef qout
 #define qout qDebug()

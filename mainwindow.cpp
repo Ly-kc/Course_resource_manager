@@ -23,15 +23,16 @@ MainWindow::MainWindow(QWidget *parent)
     notes_button->setText("备忘便签");
     website_button = new QPushButton;
     website_button->setText("常用网址");
-    course_table_button = new QPushButton;
-    course_table_button->setText("课表");    //---------------------------------------------或改成最近打开
+    recent_button = new QPushButton;
+    recent_button->setText("最近打开");    //---------------------------------------------或改成最近打开
     chart_button = new QPushButton;
     chart_button->setText("学习统计");
     magic_button = new QPushButton;
     stikey_notes = new NotesWidget;
     stikey_notes->setMinimumWidth(200);
-    web_list = new WebList;
+    web_list = new WebList(this);
     charts = new StatChart;
+    recent = new Recent(this);
 
     left_layout->addWidget(transfer_button);
     left_layout->addWidget(file_tree,11);
@@ -39,9 +40,10 @@ MainWindow::MainWindow(QWidget *parent)
     middle_layout->addLayout(filter_layout,5);
     function_layout->addWidget(chart_button);
     function_layout->addWidget(notes_button);
-    function_layout->addWidget(course_table_button);
+    function_layout->addWidget(recent_button);
     function_layout->addWidget(website_button);
     middle_layout->addLayout(function_layout);
+    right_layout->addWidget(recent);
     right_layout->addWidget(stikey_notes);
     right_layout->addWidget(web_list);
 
@@ -61,12 +63,14 @@ MainWindow::MainWindow(QWidget *parent)
     connect(chart_button,&QPushButton::clicked,this,&MainWindow::show_charts);
     connect(notes_button,&QPushButton::clicked,this,&MainWindow::show_notes);
     connect(website_button,&QPushButton::clicked,this,&MainWindow::show_websites);
+    connect(recent_button,&QPushButton::clicked,this,&MainWindow::show_recent);
 }
 
 void MainWindow::glob_flush(){
    file_tree->flush();
    filter_widget->show_result();
    if(sub_filter_widget) sub_filter_widget->show_result();
+   recent->refresh();
 }
 
 void MainWindow::trans_files()
@@ -153,8 +157,14 @@ void MainWindow::show_charts()
     charts->show();
 }
 
+void MainWindow::show_recent()
+{
+    right_layout->setCurrentWidget(recent);
+}
+
 MainWindow::~MainWindow()
 {
+    delete web_list;
     delete ui;
 }
 

@@ -10,7 +10,6 @@
 #include<QComboBox>
 #include<QSlider>
 #include<QDebug>
-#include<mainwindow.h>
 #include<datamanager.h>
 
 CourseFile get_course_file(QString name);

@@ -13,5 +13,7 @@ int main(int argc, char *argv[])
 //    mw.transfer_files();
     MainWindow* mainwindow = new MainWindow;
     mainwindow->show();
-    return a.exec();
+    a.exec();
+    delete mainwindow;
+    return 0;
 }

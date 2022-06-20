@@ -66,6 +66,8 @@ public:
     bool transform_file(std::function<CourseFile(CourseFile)> func,
                         std::function<bool(CourseFile)> filt=[](CourseFile){return true;});
     void check_files();
+signals:
+    void file_upd();
     ~CourseFileManager();// write json file
 };
 
