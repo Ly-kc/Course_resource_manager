@@ -13,8 +13,12 @@ public:
     QHBoxLayout* head_layout;
     QStackedLayout* body_layout;
     QComboBox* switch_combo;
-    QChartView* chartview;
-    QChart* chart;
+    QChartView* pie_chartview;
+    QChart* pie_chart;
+    QChartView* line_chartview;
+    QChart* line_chart;
+    void paint_pie();
+    void paint_line();
     ~StatChart();
 signals:
 

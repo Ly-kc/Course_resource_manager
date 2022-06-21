@@ -12,6 +12,7 @@
 #include<QDebug>
 #include<QTreeWidget>
 #include<QMenu>
+#include<QMenuBar>
 #include<QScrollBar>
 #include<QHeaderView>
 #include<QString>

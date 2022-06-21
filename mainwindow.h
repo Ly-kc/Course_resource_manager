@@ -10,16 +10,19 @@
 #include<QBoxLayout>
 #include<weblist.h>
 #include<statchart.h>
+#include<recent.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
-class FilterWidget;
+//class FilterWidget;
 class FileTree;
 class NotesWidget;
 class WebList;
 class StatChart;
+
+
 
 class MainWindow : public QMainWindow
 {
@@ -44,19 +47,30 @@ private:
     QPushButton* transfer_button; //转运按钮
     QPushButton* chart_button;
     QPushButton* notes_button;
-    QPushButton* course_table_button;
     QPushButton* website_button;
-    QPushButton* magic_button;
+    QPushButton* recent_button;
     WebList* web_list;
     NotesWidget* stikey_notes;
     StatChart* charts;
+    Recent* recent;
+    QMenuBar* head_menu_bar;
+    QMenu* settings;
+    QMenu* help;
+
     int table_num;
+
+    void glob_flush();
+
     void trans_files();
+    void mod_table();
     void add_table();
     void del_table();
     void show_notes();
-    void del_layout(QBoxLayout* p_layout);
+    void del_right_layout();
     void show_websites();
     void show_charts();
+    void show_recent();
+    void init_right();
+    void action_reflect(QAction* action);
 };
 #endif // MAINWINDOW_H

@@ -18,6 +18,7 @@ SOURCES += \
     jsoncpp.cpp \
     datamanager.cpp \
     noteswidget.cpp \
+    recent.cpp \
     statchart.cpp \
     weblist.cpp
 
@@ -30,6 +31,7 @@ HEADERS += \
     json/json.h \
     datamanager.h \
     noteswidget.h \
+    recent.h \
     statchart.h \
     weblist.h
 

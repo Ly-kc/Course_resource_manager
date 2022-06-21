@@ -1,6 +1,7 @@
 ﻿#ifndef ADDFILEDIALOG_H
 #define ADDFILEDIALOG_H
 
+
 #include"QtHeaderFiles.h"
 #include<datamanager.h>
 

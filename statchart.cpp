@@ -9,9 +9,29 @@ StatChart::StatChart(QWidget *parent) : QWidget(parent)
     body_layout = new QStackedLayout;
 
     switch_combo = new QComboBox;
+    QStringList chart_names;
+    chart_names << "学科频率统计" << "软件使用时长";
+    switch_combo->addItems(chart_names);
 
-    chart = new QChart;
-    chartview = new QChartView;
+    paint_line();
+    paint_pie();
+
+    body_layout->addWidget(pie_chartview);
+    body_layout->addWidget(line_chartview);
+    head_layout->addWidget(switch_combo);
+    head_layout->addStretch(4);
+    whole_layout->addLayout(head_layout);
+    whole_layout->addLayout(body_layout,1);
+    whole_layout->addLayout(body_layout);
+
+    this->setLayout(whole_layout);
+    connect(switch_combo,static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged),body_layout,&QStackedLayout::setCurrentIndex);
+}
+
+void StatChart::paint_line()
+{
+    line_chart = new QChart;
+    line_chartview = new QChartView;
     QValueAxis* mAxY = new QValueAxis;
     QValueAxis* mAxX = new QValueAxis;
     QLineSeries* mLineSeries = new QLineSeries();
@@ -22,28 +42,28 @@ StatChart::StatChart(QWidget *parent) : QWidget(parent)
     mAxX->setRange(0,10);
     mAxX->setTickCount(11);
     // 将系列添加到图表
-    chart->addSeries(mLineSeries);
-    chart->setTheme(QtCharts::QChart::ChartThemeBrownSand);
+    line_chart->addSeries(mLineSeries);
+    line_chart->setTheme(QtCharts::QChart::ChartThemeBrownSand);
     mAxX->setTitleText(QString(tr("ImageNumber")));
     mAxY->setTitleText(QString(tr("ReadRate(%)")));
-    chart->addAxis(mAxY, Qt::AlignLeft);
-    chart->addAxis(mAxX, Qt::AlignBottom);
+    line_chart->addAxis(mAxY, Qt::AlignLeft);
+    line_chart->addAxis(mAxX, Qt::AlignBottom);
     mLineSeries->attachAxis(mAxY);
     mLineSeries->attachAxis(mAxX);
     //背景
-    chart->setTheme(QChart::ChartThemeBlueCerulean);
+    line_chart->setTheme(QChart::ChartThemeBlueCerulean);
     //chart->setBackgroundVisible(false);
 
     //设置外边界全部为0
-    chart->setContentsMargins(0, 0, 0, 0);
+    line_chart->setContentsMargins(0, 0, 0, 0);
     //设置内边界全部为0
-    chart->setMargins(QMargins(0, 0, 0, 0));
+    line_chart->setMargins(QMargins(0, 0, 0, 0));
     //设置背景区域无圆角
-    chart->setBackgroundRoundness(0);
+    line_chart->setBackgroundRoundness(0);
     //突出曲线上的点
     mLineSeries->setPointsVisible(true);
     //图例
-    QLegend *mlegend = chart->legend();
+    QLegend *mlegend = line_chart->legend();
     mLineSeries->setName("testname");
 
 
@@ -52,20 +72,42 @@ StatChart::StatChart(QWidget *parent) : QWidget(parent)
     mlegend->setAlignment(Qt::AlignBottom);
     //mlegend->show();
     // 将图表绑定到视图 wiget 为 QChartView
-    chartview->setRenderHint(QPainter::Antialiasing); //抗锯齿
-    chartview->setChart(chart);
+    line_chartview->setRenderHint(QPainter::Antialiasing); //抗锯齿
+    line_chartview->setChart(line_chart);
     for(int i = 0 ;i < 10;i++){
         mLineSeries->append(i+1, i);
     }
 
-    body_layout->addWidget(chartview);
-    head_layout->addWidget(switch_combo);
-    head_layout->addStretch(4);
-    whole_layout->addLayout(head_layout);
-    whole_layout->addLayout(body_layout,1);
-    whole_layout->addLayout(body_layout);
+}
 
-    this->setLayout(whole_layout);
+void StatChart::paint_pie()
+{
+    //创建饼状图的数据系列对象，并添加相应的数据
+    pie_chart = new QChart;
+    pie_chartview = new QChartView(pie_chart);
+    QPieSeries *series = new QPieSeries();
+    series->append("苹果",6);     //添加标签 第一个为标签名 第二个为所占比例
+    series->append("香蕉",4);
+
+    series->setLabelsVisible(true);
+    series->setUseOpenGL(true);
+    series->slices().at(0)->setColor(QColor(13,128,217));   //设置颜色
+    series->slices().at(0)->setLabelColor(QColor(13,128,217));
+
+    series->slices().at(1)->setColor(QColor(255,0,0));
+    series->slices().at(1)->setLabelColor(QColor(255,0,0));
+
+    pie_chart->setTheme(QChart::ChartThemeLight);//设置白色主题
+    pie_chart->setDropShadowEnabled(true);//背景阴影
+
+    //使用QChartView将QChart装载起来，以便显示QChart图表中的数据
+    pie_chart->addSeries(series);//添加系列到QChart上
+
+    pie_chart->setTitleBrush(QBrush(QColor(0,0,255)));//设置标题Brush
+    pie_chart->setTitleFont(QFont("微软雅黑"));//设置标题字体
+    pie_chart->setTitle("饼状图");
+
+    pie_chartview->setRenderHint(QPainter::Antialiasing);
 }
 
 StatChart::~StatChart()

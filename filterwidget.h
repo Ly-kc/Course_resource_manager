@@ -5,7 +5,6 @@
 #include<datamanager.h>
 #include<addfiledialog.h>
 
-
 class FilterWidget : public QWidget
 {
     Q_OBJECT
@@ -27,6 +26,9 @@ public:
     QStringList types;
     QMenu* menu;
     QTableWidgetItem* curr_item;
+
+    CourseFile row_to_cf(int row);
+
     void show_result(); //显示筛选结果
     void init_combo();
     void init_result(); //显示所有文件
@@ -36,6 +38,7 @@ public:
     void show_menu(QPoint pos);
     ~FilterWidget();
 signals:
+    void mod_table_signal();
     void add_table_signal();
     void del_table_signal();
 };
