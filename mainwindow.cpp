@@ -17,7 +17,6 @@ MainWindow::MainWindow(QWidget *parent)
     file_tree->setMinimumWidth(140);
     file_tree->setMaximumWidth(160);
     filter_widget = new FilterWidget;
-    sub_filter_widget = 0;
     transfer_button = new QPushButton;
     transfer_button->setText("中转文件");
     notes_button = new QPushButton;
@@ -28,7 +27,6 @@ MainWindow::MainWindow(QWidget *parent)
     recent_button->setText("最近打开");
     chart_button = new QPushButton;
     chart_button->setText("学习统计");
-    charts = new StatChart;
     head_menu_bar = this->menuBar();   //---------------------------------------------还有帮助菜单？
     settings = new QMenu("设置");
     settings->addAction("设置路径");
@@ -158,6 +156,7 @@ void MainWindow::show_websites()
 
 void MainWindow::show_charts()
 {
+    if(charts== 0) charts = new StatChart;
     charts->show();
 }
 

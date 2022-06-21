@@ -41,7 +41,7 @@ private:
     QHBoxLayout* function_layout;
     QStackedLayout* right_layout;
     FilterWidget* filter_widget;
-    FilterWidget* sub_filter_widget;
+    FilterWidget* sub_filter_widget = 0;
     FileTree* file_tree;  //文件树
     QWidget* central_widget; //中部组件
     QPushButton* transfer_button; //转运按钮
@@ -51,7 +51,7 @@ private:
     QPushButton* recent_button;
     WebList* web_list;
     NotesWidget* stikey_notes;
-    StatChart* charts;
+    StatChart* charts = 0;
     Recent* recent;
     QMenuBar* head_menu_bar;
     QMenu* settings;
