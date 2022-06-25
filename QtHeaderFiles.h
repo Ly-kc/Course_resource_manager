@@ -23,6 +23,7 @@
 #include<regex>
 #include<QFile>
 #include<QDir>
+#include<QFileDialog>
 #include<QFormLayout>
 #include<QStackedLayout>
 #include<QListWidget>

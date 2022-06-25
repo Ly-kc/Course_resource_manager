@@ -29,7 +29,8 @@ MainWindow::MainWindow(QWidget *parent)
     chart_button->setText("学习统计");
     head_menu_bar = this->menuBar();   //---------------------------------------------还有帮助菜单？
     settings = new QMenu("设置");
-    settings->addAction("设置路径");
+    settings->addAction("设置中转站");
+    settings->addAction("设置存储位置");
     settings->addAction("隐藏右侧窗口");
     help = new QMenu("帮助");
     head_menu_bar->addMenu(settings);
@@ -67,9 +68,22 @@ MainWindow::MainWindow(QWidget *parent)
 
 void MainWindow::action_reflect(QAction *action)
 {
-    if(action->text() == "设置路径")
+    if(action->text() == "设置中转站")
     {
+        QString desktop_path = QStandardPaths::writableLocation(QStandardPaths::DesktopLocation);
+        QString dirpath = QFileDialog::getExistingDirectory(this, "选择目录", desktop_path, QFileDialog::ShowDirsOnly);
+        qDebug() << dirpath;
+//        std::string * p_trans_dir = const_cast<std::string *>(&trans_dir);
+//        if(dirpath!= "") * p_trans_dir = dirpath.toStdString();
+        glob_flush();
+    }
+    if(action->text() == "设置存储位置")
+    {
+        QString desktop_path = QStandardPaths::writableLocation(QStandardPaths::DesktopLocation);
+        QString dirpath = QFileDialog::getExistingDirectory(this, "选择目录", desktop_path, QFileDialog::ShowDirsOnly);
+        qDebug() << dirpath;
 
+        glob_flush();
     }
     else if(action->text() == "隐藏右侧窗口")
     {

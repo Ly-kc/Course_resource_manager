@@ -20,6 +20,8 @@ public:
     ~AddFileDialog();
     void save();  //获取输入信息
     void set_file(QString name);  //调出窗口
+    void cancel();
+    void init_combo();
 private:
     Ui::AddFileDialog *ui;
     QString file_name;

@@ -16,12 +16,7 @@ AddFileDialog::AddFileDialog(QWidget *parent) :
     type_box = new QComboBox;
     subject_box = new QComboBox;
     //初始化combobox
-    QStringList type_list;
-    QStringList subject_list;
-    subject_list << "algebra"<<"analysis"<<"programming"<<"AI"<<"watering"<<"eating"<<"add new";
-    type_list<<"ppt"<<"notes"<<"homework"<<"project"<<"watering"<<"eating";
-    type_box->addItems(type_list);
-    subject_box->addItems(subject_list);
+    init_combo();
     //设置slider
     priority_slider = new QSlider;
     priority_slider->setMaximum(3);
@@ -45,9 +40,44 @@ AddFileDialog::AddFileDialog(QWidget *parent) :
     this->setLayout(VBox);
     //信号与槽
     QObject::connect(submit_button,&QPushButton::clicked,this,&AddFileDialog::save);
-    QObject::connect(cancel_button,&QPushButton::clicked,this,&AddFileDialog::close); //------------待考虑
+    QObject::connect(cancel_button,&QPushButton::clicked,this,&AddFileDialog::cancel); //------------待考虑
 }
 
+void AddFileDialog::init_combo()
+{
+    QStringList type_list;
+    QStringList subject_list;
+    vector<CourseFile> files = cfm.filter_file();
+    type_list<<"自定义";
+    subject_list<<"自定义";
+    for(auto file:files)
+    {
+        bool flag1 = false , flag2 = false;
+        for(int i = 0 ; i < type_list.size() ; i ++)
+            if(type_list[i] == file.get_type())
+            {
+                flag1 = true;
+                break;
+            }
+        for(int i = 0 ; i < subject_list.size() ; i ++)
+            if(subject_list[i] == file.get_subject())
+            {
+                flag2 = true;
+                break;
+            }
+        if(!flag1) type_list.append(file.get_type());
+        if(!flag2) subject_list.append(file.get_subject());
+    }
+    subject_box->setEditable(true);
+    type_box->setEditable(true);
+    type_box->addItems(type_list);
+    subject_box->addItems(subject_list);
+}
+
+void AddFileDialog::cancel()
+{
+    this->close();
+}
 void AddFileDialog::set_file(QString name)
 {
     name_edit->setPlaceholderText(name);
