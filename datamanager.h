@@ -72,10 +72,8 @@ signals:
 };
 
 class MyWatcher: public QObject{
-    QString main_path,trans_path;
     //QFileSystemWatcher *watcher;
 public:
-    MyWatcher(QString _main_path,QString _trans_path);
     void transfer_files();
 };
 

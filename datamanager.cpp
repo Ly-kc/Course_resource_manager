@@ -190,15 +190,12 @@ CourseFileManager::~CourseFileManager(){
 }
 
 CourseFileManager cfm;
-
-MyWatcher::MyWatcher(QString _main_path,QString _trans_path){
-    main_path=_main_path;
-    trans_path=_trans_path;
 //    watcher=new QFileSystemWatcher;
 //    watcher->addPath(watch_path);
 //    connect(watcher,&QFileSystemWatcher::directoryChanged,this,&MyWatcher::transfer_files);
-}
 void MyWatcher::transfer_files(){
+    auto main_path=QString::fromStdString(glob_dir);
+    auto trans_path=QString::fromStdString(trans_dir);
     auto file_list=QDir(trans_path).entryInfoList(QDir::Files);
     for(auto fi:file_list){
         auto cf=get_course_file(fi.fileName());
@@ -218,4 +215,4 @@ void MyWatcher::transfer_files(){
     cfm.check_files();
 }
 
-MyWatcher mw(QString::fromStdString(glob_dir),QString::fromStdString(trans_dir));
+MyWatcher mw;

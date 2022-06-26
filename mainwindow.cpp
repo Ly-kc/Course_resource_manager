@@ -76,8 +76,8 @@ void MainWindow::action_reflect(QAction *action)
         QString desktop_path = QStandardPaths::writableLocation(QStandardPaths::DesktopLocation);
         QString dirpath = QFileDialog::getExistingDirectory(this, "选择目录", desktop_path, QFileDialog::ShowDirsOnly);
         qDebug() << dirpath;
-//        std::string * p_trans_dir = const_cast<std::string *>(&trans_dir);
-//        if(dirpath!= "") * p_trans_dir = dirpath.toStdString();
+        std::string * p_trans_dir = const_cast<std::string *>(&trans_dir);
+        if(dirpath!= "") * p_trans_dir = dirpath.toStdString();
         glob_flush();
     }
     else if(action->text() == "设置存储位置")
@@ -85,7 +85,8 @@ void MainWindow::action_reflect(QAction *action)
         QString desktop_path = QStandardPaths::writableLocation(QStandardPaths::DesktopLocation);
         QString dirpath = QFileDialog::getExistingDirectory(this, "选择目录", desktop_path, QFileDialog::ShowDirsOnly);
         qDebug() << dirpath;
-
+        std::string * p_trans_dir = const_cast<std::string *>(&glob_dir);
+        if(dirpath!= "") * p_trans_dir = dirpath.toStdString();
         glob_flush();
     }
     else if(action->text() == "隐藏右侧窗口")
