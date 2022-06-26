@@ -11,6 +11,7 @@
 #include<weblist.h>
 #include<statchart.h>
 #include<recent.h>
+#include<introwidget.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -56,6 +57,7 @@ private:
     QMenuBar* head_menu_bar;
     QMenu* settings;
     QMenu* help;
+    IntroWidget* introduction;
 
     int table_num;
 
@@ -72,5 +74,6 @@ private:
     void show_recent();
     void init_right();
     void action_reflect(QAction* action);
+    void show_intro();
 };
 #endif // MAINWINDOW_H

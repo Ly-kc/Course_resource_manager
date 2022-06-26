@@ -13,6 +13,7 @@ SOURCES += \
     addfiledialog.cpp \
     filetree.cpp \
     filterwidget.cpp \
+    introwidget.cpp \
     main.cpp \
     mainwindow.cpp \
     jsoncpp.cpp \
@@ -27,6 +28,7 @@ HEADERS += \
     addfiledialog.h \
     filetree.h \
     filterwidget.h \
+    introwidget.h \
     mainwindow.h \
     json/json.h \
     datamanager.h \

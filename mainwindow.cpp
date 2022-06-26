@@ -33,6 +33,7 @@ MainWindow::MainWindow(QWidget *parent)
     settings->addAction("设置存储位置");
     settings->addAction("隐藏右侧窗口");
     help = new QMenu("帮助");
+    introduction = new IntroWidget;
     head_menu_bar->addMenu(settings);
     head_menu_bar->addMenu(help);
 
@@ -64,7 +65,9 @@ MainWindow::MainWindow(QWidget *parent)
     connect(website_button,&QPushButton::clicked,this,&MainWindow::show_websites);
     connect(recent_button,&QPushButton::clicked,this,&MainWindow::show_recent);
     connect(settings,&QMenu::triggered,this,&MainWindow::action_reflect);
+    connect(help,&QMenu::aboutToShow,introduction,&IntroWidget::show_intro);
 }
+
 
 void MainWindow::action_reflect(QAction *action)
 {
@@ -77,7 +80,7 @@ void MainWindow::action_reflect(QAction *action)
 //        if(dirpath!= "") * p_trans_dir = dirpath.toStdString();
         glob_flush();
     }
-    if(action->text() == "设置存储位置")
+    else if(action->text() == "设置存储位置")
     {
         QString desktop_path = QStandardPaths::writableLocation(QStandardPaths::DesktopLocation);
         QString dirpath = QFileDialog::getExistingDirectory(this, "选择目录", desktop_path, QFileDialog::ShowDirsOnly);

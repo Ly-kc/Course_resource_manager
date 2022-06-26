@@ -31,5 +31,7 @@
 #include<QtCharts>
 #include<QChartView>
 #include<QChart>
+#include<QWizard>
+#include<QWizardPage>
 
 #endif // HEADERFILES_H

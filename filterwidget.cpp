@@ -23,6 +23,7 @@ FilterWidget::FilterWidget(QWidget *parent) : QWidget(parent)
     menu->addAction("修改文件信息");
     menu->addAction("新增筛选窗口");
     menu->addAction("删除筛选窗口");
+    curr_item = 0;
     //完成head
     filter_button = new QPushButton;
     filter_button->setText("筛选");
@@ -203,13 +204,13 @@ void FilterWidget::show_menu(QPoint pos)
      menu->show();
 }
 
-void FilterWidget::action_reflect(QAction *action) //-------------------------------------------待完善
+void FilterWidget::action_reflect(QAction *action)
 {
     auto item=curr_item;
-    int row=item->row(),col=item->column();
-    auto cf=row_to_cf(row);
-    if(action->text() == "修改文件信息")
+    if(item != 0x0 && action->text() == "修改文件信息")
     {
+        int row=item->row(),col=item->column();
+        auto cf=row_to_cf(row);
         bool ok;
         if(col>2) return;
         QString lab = "输入新"+file_table->horizontalHeaderItem(col)->text();
@@ -228,6 +229,7 @@ void FilterWidget::action_reflect(QAction *action) //---------------------------
     }
     if(action->text() == "新增筛选窗口")  emit add_table_signal();
     if(action->text() == "删除筛选窗口") emit del_table_signal();
+    curr_item = 0;
 }
 
 FilterWidget::~FilterWidget()
