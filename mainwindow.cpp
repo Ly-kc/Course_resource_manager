@@ -74,18 +74,19 @@ void MainWindow::action_reflect(QAction *action)
     if(action->text() == "设置中转站")
     {
         QString desktop_path = QStandardPaths::writableLocation(QStandardPaths::DesktopLocation);
-        QString dirpath = QFileDialog::getExistingDirectory(this, "选择目录", desktop_path, QFileDialog::ShowDirsOnly);
-        qDebug() << dirpath;
-//        std::string * p_trans_dir = const_cast<std::string *>(&trans_dir);
-//        if(dirpath!= "") * p_trans_dir = dirpath.toStdString();
+        QString dirpath = QFileDialog::getExistingDirectory(this, "选择目录", desktop_path, QFileDialog::ShowDirsOnly);      
+        std::string * p_trans_dir = const_cast<std::string *>(&trans_dir);
+        if(dirpath!= "") * p_trans_dir = dirpath.toStdString();
+        qDebug() << QString::fromStdString(trans_dir);
         glob_flush();
     }
     else if(action->text() == "设置存储位置")
     {
         QString desktop_path = QStandardPaths::writableLocation(QStandardPaths::DesktopLocation);
         QString dirpath = QFileDialog::getExistingDirectory(this, "选择目录", desktop_path, QFileDialog::ShowDirsOnly);
-        qDebug() << dirpath;
-
+        std::string * p_glob_dir = const_cast<std::string *>(&glob_dir);
+        if(dirpath!= "") * p_glob_dir = dirpath.toStdString();
+        qDebug() << QString::fromStdString(glob_dir);
         glob_flush();
     }
     else if(action->text() == "隐藏右侧窗口")
@@ -103,7 +104,7 @@ void MainWindow::glob_flush(){
 
 void MainWindow::trans_files()
 {
-
+    qDebug() << QString::fromStdString(trans_dir);
     mw.transfer_files();
     glob_flush();
 }
