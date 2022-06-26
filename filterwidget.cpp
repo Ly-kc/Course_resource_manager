@@ -63,7 +63,7 @@ FilterWidget::FilterWidget(QWidget *parent) : QWidget(parent)
 
 void FilterWidget::init_combo()
 {
-    vector<CourseFile> files = cfm.filter_file();
+    vector<CourseFile> files = cfm.filter_file([&](CourseFile file){return file.get_type() != "sticky";});
     for(auto i = files.begin() ; i != files.end() ; i ++)
     {
         CourseFile file = *i;
@@ -90,7 +90,7 @@ void FilterWidget::init_combo()
 
 void FilterWidget::init_result()
 {
-    vector<CourseFile> files = cfm.filter_file();
+    vector<CourseFile> files = cfm.filter_file([&](CourseFile file){return file.get_type() != "sticky";});
     QStringList heads;
     //heads << "文件名"<< "学科" << "类型" << "上次时间" << "路径";
     heads << "文件名"<< "学科" << "类型" << "上次时间";
@@ -121,7 +121,7 @@ CourseFile FilterWidget::row_to_cf(int row){
     return CourseFile(sub,typ,nam);
 }
 
-void FilterWidget::show_result()//--------------------------------------------------------时间筛选待完善
+void FilterWidget::show_result()
 {
     QString name = name_edit->text();
     QString subject = sub_filter->currentText();
@@ -131,8 +131,8 @@ void FilterWidget::show_result()//----------------------------------------------
     if(days == 0) days = (1<<30);
     auto filter = [&](CourseFile file){
         std::regex name_reg(name.toStdString());
+        if(file.get_type() == "sticky") return false;
         bool ret = std::regex_search(file.get_name().toStdString(), name_reg);
-        //if(name!="" && name != file.get_name()) return false;
         if(name != "" && !ret) return false;
         if(subject != "所有学科" && subject != file.get_subject()) return false;
         if(type != "所有类型" && type != file.get_type()) return false;

@@ -1,18 +1,25 @@
-#include "recent.h"
+﻿#include "recent.h"
 
 Recent::Recent(QWidget *parent) : QWidget(parent)
 {
     whole_layout = new QVBoxLayout;
+
+    title = new QLabel;
+    title->setText("最近打开");
+
     name_list = new QListWidget;
     refresh();
+
+    whole_layout->addWidget(title);
     whole_layout->addWidget(name_list);
     this->setLayout(whole_layout);
+
     connect(name_list,&QListWidget::itemClicked,this,&Recent::open_file);
 }
 
 void Recent::refresh(){
     name_list->clear();
-    cfs=cfm.filter_file();
+    cfs=cfm.filter_file([&](CourseFile file){return file.get_type() != "sticky";});
     sort(cfs.begin(),cfs.end(),[](CourseFile x,CourseFile y){
         return x.get_time()>y.get_time();
     });

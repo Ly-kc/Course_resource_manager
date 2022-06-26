@@ -42,8 +42,8 @@ MainWindow::MainWindow(QWidget *parent)
     filter_layout->addWidget(filter_widget);
     middle_layout->addLayout(filter_layout,5);
     function_layout->addWidget(chart_button);
-    function_layout->addWidget(notes_button);
     function_layout->addWidget(recent_button);
+    function_layout->addWidget(notes_button);
     function_layout->addWidget(website_button);
     middle_layout->addLayout(function_layout);
 

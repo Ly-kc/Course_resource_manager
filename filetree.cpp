@@ -39,7 +39,7 @@ FileTree::FileTree(QWidget *parent):QTreeWidget(parent)
 void FileTree::flush()
 {
     this->clear();
-    vector<CourseFile> files = cfm.filter_file();
+    vector<CourseFile> files = cfm.filter_file([&](CourseFile file){return file.get_type() != "sticky";});
     vector<QString> subject;
     QString sub_name;
     for(auto i = files.begin() ; i != files.end() ; i ++)

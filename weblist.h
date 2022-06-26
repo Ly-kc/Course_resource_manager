@@ -1,7 +1,7 @@
 ﻿#ifndef WEBLIST_H
 #define WEBLIST_H
 
-#include <QWidget>
+#include<QtHeaderFiles.h>
 #include<mainwindow.h>
 
 #ifndef qout
@@ -28,9 +28,13 @@ public:
     QList<LinkInfo> info_list;
     QPushButton* but;
     QFile* link_file;
+    QMenu* menu;
+    QListWidgetItem* curr_item;
     void refresh();
     void new_link();
-    void del_link(QListWidgetItem*);
+    void action_reflect(QAction* action);
+    void show_menu(QPoint pos);
+    void del_link();
     void open_link(QListWidgetItem*);
     ~WebList();
 signals:

@@ -1,9 +1,7 @@
-#ifndef RECENT_H
+﻿#ifndef RECENT_H
 #define RECENT_H
 
-#include <QWidget>
-#include<QBoxLayout>
-#include<QListWidget>
+#include<QtHeaderFiles.h>
 #include"datamanager.h"
 
 #ifndef qout
@@ -16,6 +14,7 @@ class Recent : public QWidget
 public:
     explicit Recent(QWidget *parent = nullptr);
     QVBoxLayout* whole_layout;
+    QLabel* title;
     QListWidget* name_list;
     std::vector<CourseFile> cfs;
     void refresh();
