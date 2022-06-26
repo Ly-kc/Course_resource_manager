@@ -203,6 +203,7 @@ void MyWatcher::transfer_files(){
     auto file_list=QDir(trans_path).entryInfoList(QDir::Files);
     for(auto fi:file_list){
         auto cf=get_course_file(fi.fileName());
+        if(cf.get_type()=="cancel") continue;
         cfm.add_file(fi.absoluteFilePath(),cf);
     }
     auto dir_list=QDir(main_path).entryInfoList(QDir::Dirs|QDir::NoDotAndDotDot);
