@@ -17,7 +17,7 @@
 using std::string;
 using std::vector;
 
-extern const string glob_dir,trans_dir;
+extern string glob_dir,trans_dir;
 
 class CourseFileManager;
 

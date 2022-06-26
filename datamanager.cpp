@@ -10,8 +10,8 @@
 #include<QDesktopServices>
 
 using std::string;
-const string glob_dir="C:\\Users\\win\\Desktop\\233";
-const string trans_dir="C:\\Users\\win\\Desktop\\形策";
+string glob_dir="C:\\Users\\win\\Desktop\\233";
+string trans_dir="C:\\Users\\win\\Desktop\\形策";
 //const string glob_dir="D:\\University\\term0";
 //const string trans_dir="D:\\University\\trans";
 const QString time_format="yyyy/MM/dd HH:mm:ss";
@@ -87,8 +87,10 @@ CourseFile retrieve(QString path){
 CourseFileManager::CourseFileManager(){
     std::ifstream ifs("course_info.json");
     Json::Reader ipt;
-    Json::Value course_list;
+    Json::Value course_list,tmp;
     ipt.parse(ifs,course_list);
+    if(!course_list.empty()) course_list.removeIndex(0,&tmp),glob_dir=tmp.asString();
+    if(!course_list.empty()) course_list.removeIndex(0,&tmp),trans_dir=tmp.asString();
     for(auto cur:course_list){
         auto cf=CourseFile(
             cur["subject"].asString(),
@@ -176,6 +178,8 @@ CourseFileManager::~CourseFileManager(){
     qDebug()<<"destruction";
     std::ofstream opt("course_info.json");
     Json::Value course_list(Json::arrayValue);
+    course_list.append(Json::Value(glob_dir));
+    course_list.append(Json::Value(trans_dir));
     for(auto cf:courses){
         Json::Value cur;
         cur["subject"]=cf.subject;
