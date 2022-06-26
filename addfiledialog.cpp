@@ -76,6 +76,7 @@ void AddFileDialog::init_combo()
 
 void AddFileDialog::cancel()
 {
+    type = "cancel";
     this->close();
 }
 void AddFileDialog::set_file(QString name)
