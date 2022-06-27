@@ -3,9 +3,7 @@
 
 FileTree::FileTree(QWidget *parent):QTreeWidget(parent)
 {
-//    this->setObjectName("TreeMenu");
-//    this->verticalScrollBar()->setObjectName("TreeMenuVerticl");
-//    this->horizontalScrollBar()->setObjectName("TreeMenuHorizontal");
+
     //一通设置
     this->setColumnCount(1);
     this->setHorizontalScrollMode(QAbstractItemView::ScrollPerPixel);
@@ -16,14 +14,9 @@ FileTree::FileTree(QWidget *parent):QTreeWidget(parent)
     this->setAnimated(true); //展开折叠动画
     // 创建右击文件夹的菜单栏
     dir_menu = new QMenu();
-    dir_menu->addAction("新建文件");
-    dir_menu->addAction("重命名");
-    dir_menu->addSeparator();
-    dir_menu->addAction("新建文件夹");
-    dir_menu->addAction("删除文件夹");
+    dir_menu->addAction("打开文件夹");
     // 创建右击文件的菜单栏
     file_menu = new QMenu();
-    file_menu->addAction("修改信息");
     file_menu->addAction("删除文件");
     file_menu->addAction("打开文件");
     file_menu->addAction("打开所在文件夹");
@@ -33,7 +26,7 @@ FileTree::FileTree(QWidget *parent):QTreeWidget(parent)
     connect(dir_menu,&QMenu::triggered,this,&FileTree::tempActionInformation);
     connect(file_menu,&QMenu::triggered,this,&FileTree::tempActionInformation);
     connect(this,&QTreeWidget::itemClicked,this,&FileTree::item_clicked_slot);//左键单击
-//    connect(this,SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)),this,SLOT(DoubleClickpath(QTreeWidgetItem*,int)));
+    connect(this,&QTreeWidget::itemDoubleClicked,this,&FileTree::double_clicked_slot);
 }
 
 void FileTree::flush()
@@ -93,6 +86,11 @@ void FileTree::add_fileitem(QTreeWidgetItem *type_item)
     }
 }
 
+CourseFile get_cf_from_item(QTreeWidgetItem* item){
+    auto vec=cfm.filter_file([&](CourseFile cf){return cf.get_path()==item->toolTip(0);});
+    return vec[0];
+}
+
 void FileTree::item_clicked_slot(QTreeWidgetItem* parent_item)//--------------------------------打开文件
 {
     qDebug()<< parent_item->text(0) << " clicked";
@@ -100,14 +98,12 @@ void FileTree::item_clicked_slot(QTreeWidgetItem* parent_item)//----------------
     {
         if(parent_item->isExpanded()) parent_item->setExpanded(false);
         else parent_item->setExpanded(true);
-        //QTreeWidgetItem* item = parent_item->child(0);
-        //this->scrollToItem(item, EnsureVisible);
     }
-    else
-    {
-        //open file with default pro
-    }
+}
 
+void FileTree::double_clicked_slot(QTreeWidgetItem *item)
+{
+    if(item->type() == FILE) cfm.open_file(get_cf_from_item(item));
 }
 
 void FileTree::show_menu(QPoint pos)
@@ -148,12 +144,6 @@ void FileTree::expand_to_item(QTreeWidgetItem *item) //-------------------------
     }
 }
 
-CourseFile get_cf_from_item(QTreeWidgetItem* item){
-    auto vec=cfm.filter_file([&](CourseFile cf){return cf.get_path()==item->toolTip(0);});
-    return vec[0];
-}
-
-
 void FileTree::tempActionInformation(QAction *action)//--------------------------------一堆操作
 {
     qDebug() << "2"<<nowItem->text(0);
@@ -164,20 +154,14 @@ void FileTree::tempActionInformation(QAction *action)//-------------------------
         cfm.erase_file(get_cf_from_item(nowItem));
         delete nowItem;
     }
-    if(1)
+    if(action->text() == "打开所在文件夹")
     {
 
     }
-//    dir_menu->addAction("新建文件");
-//    dir_menu->addAction("重命名");
-//    dir_menu->addSeparator();
-//    dir_menu->addAction("新建文件夹");
-//    dir_menu->addAction("删除文件夹");
-//    // 创建右击文件的菜单栏
-//    file_menu = new QMenu();
-//    file_menu->addAction("修改信息");
-//    file_menu->addAction("删除文件");
-//    file_menu->addAction("打开所在文件夹");
+    if(action->text() == "打开文件夹")
+    {
+
+    }
 }
 
 FileTree::~FileTree()

@@ -10,7 +10,7 @@ StatChart::StatChart(QWidget *parent) : QWidget(parent)
 
     switch_combo = new QComboBox;
     QStringList chart_names;
-    chart_names << "学科频率统计" << "软件使用时长";
+    chart_names << "学科频率统计" << "每日打开文件频率";
     switch_combo->addItems(chart_names);
 
     paint_line();

@@ -50,7 +50,7 @@ void NotesWidget::init_list()
     for(auto note:notes)
     {
         QListWidgetItem* note_item = new QListWidgetItem;
-        note_item->setText("· " + note.get_name());
+        note_item->setText("✍ " + note.get_name());
         notes_list->setWordWrap(true);
         note_item->setTextAlignment(Qt::AlignCenter);
         notes_list->addItem(note_item);

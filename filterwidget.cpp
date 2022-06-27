@@ -7,7 +7,6 @@ FilterWidget::FilterWidget(QWidget *parent) : QWidget(parent)
     table_layout = new QHBoxLayout;//whole_layout下部
     combo_layout = new QHBoxLayout;//head_layout右部
     //完成table_layout
-//    file_table = new QTableWidget(20,5);//-----------------------------------------------槽函数待添加(右键）
     file_table = new QTableWidget(20,4);
     file_table->setHorizontalScrollMode(QAbstractItemView::ScrollPerPixel);
     file_table->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
