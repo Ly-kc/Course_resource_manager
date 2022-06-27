@@ -61,8 +61,8 @@ MainWindow::MainWindow(QWidget *parent)
     function_layout->addWidget(website_button);
     middle_layout->addLayout(function_layout);
 
-    whole_layout->addLayout(left_layout,2);
-    whole_layout->addLayout(middle_layout,5);
+    whole_layout->addLayout(left_layout,3);
+    whole_layout->addLayout(middle_layout,6);
     init_right();
 
     //mainwindow不能直接setlayout

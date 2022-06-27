@@ -66,24 +66,21 @@ void StatChart::paint_line()
     QValueAxis* mAxX = new QValueAxis;
     QLineSeries* mLineSeries = new QLineSeries();
     //y轴范围
-    mAxY->setRange(0, 10);
+    mAxY->setRange(0, 20);
     // Y轴分等份
     mAxY->setTickCount(11);
-    mAxX->setRange(0,10);
-    mAxX->setTickCount(11);
+    mAxX->setRange(0,6);
+    mAxX->setTickCount(7);
     // 将系列添加到图表
     line_chart->addSeries(mLineSeries);
-    line_chart->setTheme(QtCharts::QChart::ChartThemeBrownSand);
-    mAxX->setTitleText(QString(tr("ImageNumber")));
-    mAxY->setTitleText(QString(tr("ReadRate(%)")));
+    mAxX->setTitleText("这七日");
+    mAxY->setTitleText("打开文件数");
     line_chart->addAxis(mAxY, Qt::AlignLeft);
     line_chart->addAxis(mAxX, Qt::AlignBottom);
     mLineSeries->attachAxis(mAxY);
     mLineSeries->attachAxis(mAxX);
     //背景
     line_chart->setTheme(QChart::ChartThemeBlueCerulean);
-    //chart->setBackgroundVisible(false);
-
     //设置外边界全部为0
     line_chart->setContentsMargins(0, 0, 0, 0);
     //设置内边界全部为0
@@ -93,25 +90,24 @@ void StatChart::paint_line()
     //突出曲线上的点
     mLineSeries->setPointsVisible(true);
     //图例
-    QLegend *mlegend = line_chart->legend();
-    mLineSeries->setName("testname");
-
-
+   // QLegend *mlegend = line_chart->legend();
+    mLineSeries->setName("最近七日打开文件数");
     mLineSeries->setColor(QColor(255,0,0));
     //在底部显示
-    mlegend->setAlignment(Qt::AlignBottom);
-    mlegend->show();
+   // mlegend->setAlignment(Qt::AlignBottom);
+   // mlegend->show();
     // 将图表绑定到视图 wiget 为 QChartView
     line_chartview->setRenderHint(QPainter::Antialiasing); //抗锯齿
     line_chartview->setChart(line_chart);
-    for(int i = 0 ;i < 10;i++){
-        mLineSeries->append(i+1, i);
+    for(int i = 6 ; i >= 0 ; i--){
+        int num = cfm.filter_file([&](CourseFile file){
+                return file.get_time().addDays(i).date() == QDateTime::currentDateTime().date() && file.get_freq() > 0;}).size();
+        mLineSeries->append(6-i, num);
     }
 }
 
 void StatChart::paint_pie()
 {
-    //创建饼状图的数据系列对象，并添加相应的数据
     pie_chart = new QChart;
     pie_chartview = new QChartView(pie_chart);
     QPieSeries *series = new QPieSeries();
@@ -134,13 +130,7 @@ void StatChart::paint_pie()
 
     series->setLabelsVisible(true);
     series->setUseOpenGL(true);
-//    series->slices().at(0)->setColor(QColor(13,128,217));   //设置颜色
-//    series->slices().at(0)->setLabelColor(QColor(13,128,217));
-
-//    series->slices().at(1)->setColor(QColor(255,0,0));
-//    series->slices().at(1)->setLabelColor(QColor(255,0,0));
-
-    pie_chart->setTheme(QChart::ChartThemeLight);//设置白色主题
+    pie_chart->setTheme(QChart::ChartThemeBlueNcs);
     pie_chart->setDropShadowEnabled(true);//背景阴影
     pie_chart->addSeries(series);//添加系列到QChart上
     pie_chart->setTitleBrush(QBrush(QColor(0,0,255)));//设置标题Brush

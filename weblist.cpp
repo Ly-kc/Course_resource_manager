@@ -41,7 +41,7 @@ WebList::WebList(QWidget *parent) : QWidget(parent)
     });
     connect(web_list,&QListWidget::customContextMenuRequested,this,&WebList::show_menu);
     connect(menu,&QMenu::triggered,this,&WebList::del_link);
-    connect(web_list,&QListWidget::itemDoubleClicked,this,&WebList::open_link);
+    connect(web_list,&QListWidget::itemClicked,this,&WebList::open_link);
 
     web_list->setStyleSheet("QListWidget{\
     outline:none;\
