@@ -18,6 +18,7 @@ SOURCES += \
     mainwindow.cpp \
     jsoncpp.cpp \
     datamanager.cpp \
+    mypushbotton.cpp \
     noteswidget.cpp \
     recent.cpp \
     statchart.cpp \
@@ -32,6 +33,7 @@ HEADERS += \
     mainwindow.h \
     json/json.h \
     datamanager.h \
+    mypushbotton.h \
     noteswidget.h \
     recent.h \
     statchart.h \
@@ -45,3 +47,6 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+RESOURCES += \
+    static.qrc

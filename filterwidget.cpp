@@ -58,6 +58,63 @@ FilterWidget::FilterWidget(QWidget *parent) : QWidget(parent)
     connect(file_table,&QTableWidget::customContextMenuRequested,this,&FilterWidget::show_menu);//右键单击
     connect(menu,&QMenu::triggered,this,&FilterWidget::action_reflect);
     connect(file_table,&QTableWidget::cellDoubleClicked,this,&FilterWidget::open_file);
+
+    setStyleSheet("QComboBox{\
+    border:1px solid #eeeeee;\
+    border-radius:4px;\
+    padding:1px 2px 1px 2px ;\
+    background:#ffffff;\
+    font-size:14px;\
+    color:#333333;\
+    font-family:KaiTi;\
+    }\
+    QComboBox:checked{\
+    border:1px solid #069aae;\
+    }\
+    QComboBox QAbstractItemView{\
+    outline: 0px solid gray;\
+    border:1px solid #eeeeee;\
+    color:#333333;\
+    font-size:14px;\
+    font-family:KaiTi;\
+    background-color:#ffffff;\
+    selection-color:#333333;\
+    selection-background-color:#f1f8ff;\
+    }\
+    QComboBox::drop-down {\
+    subcontrol-origin: padding;\
+    subcontrol-position: top right;\
+    width: 16px;\
+    border-left: 0px solid darkgray;\
+    border-top-right-radius: 4px;\
+    border-bottom-right-radius: 4px;\
+    }\
+    ");
+
+    name_edit->setStyleSheet("QLineEdit{\
+    border:1px solid gray;\
+    border-radius:4px;\
+    border-bottom-right-radius:4px ;\
+    border-top-left-radius:4px ;\
+    font-family:KaiTi;\
+    }\
+    ");
+
+    file_table->setStyleSheet("QTableWidget{\
+    background-color:rgb(100,100,100);\
+    font-family:KaiTi;\
+    }\
+    QTableWidget::item{\
+    background-color:rgb(240,255,255);\
+    font-family:KaiTi;\
+    }\
+    QHeaderView::section{\
+    background-color:rgb(176,224,230);\
+    border:0px solid gray;\
+    padding:4px;\
+    font-family:KaiTi;\
+    }\
+    ");
 }
 
 void FilterWidget::init_combo()

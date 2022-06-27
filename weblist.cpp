@@ -33,10 +33,54 @@ WebList::WebList(QWidget *parent) : QWidget(parent)
     whole_layout->addWidget(web_list);
     this->setLayout(whole_layout);
 
-    connect(but,&QPushButton::clicked,this,&WebList::new_link);
+    //connect(but,&QPushButton::clicked,this,&WebList::new_link);
+    connect(but,&QPushButton::clicked,[=](){
+        QTimer::singleShot(500,this,[=](){
+            this->WebList::new_link();
+        });
+    });
     connect(web_list,&QListWidget::customContextMenuRequested,this,&WebList::show_menu);
     connect(menu,&QMenu::triggered,this,&WebList::del_link);
     connect(web_list,&QListWidget::itemDoubleClicked,this,&WebList::open_link);
+
+    web_list->setStyleSheet("QListWidget{\
+    outline:none;\
+    border:none;\
+    font-family:KaiTi;\
+    }\
+    QListWidget::item{\
+    padding-top:24px;\
+    color:rgba(121,112,52,1);\
+    margin-left:40px;\
+    }\
+    QListWidget::item:hover{\
+    background-color:transparent;\
+    border-bottom:1px solid rgb(121,112,52);\
+    }\
+    QListWidget::item:selected{\
+    border-bottom:1px solid rgb(121,112,52);\
+    padding:0px;\
+    margin:0px;\
+    color:red;\
+    }\
+    QListWidget::item:selected:!active{\
+    border-width:0px;\
+    }\
+    ");
+
+    but->setStyleSheet("QPushButton{\
+    border:2px groove gray;\
+    border-radius:10px;\
+    padding:2px 4px;\
+    border-style:inset;\
+    color:rgb(255,235,205);\
+    }\
+    QPushButton:pressed{\
+    background-color:rgb(200,200,200);\
+    border-style:inset;\
+    color:rgb(121,112,52);\
+    }\
+    ");
 }
 
 void WebList::refresh()

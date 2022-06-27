@@ -15,6 +15,37 @@ Recent::Recent(QWidget *parent) : QWidget(parent)
     this->setLayout(whole_layout);
 
     connect(name_list,&QListWidget::itemClicked,this,&Recent::open_file);
+
+    title->setStyleSheet("QLabel{\
+    color:rgb(255,235,205);\
+    font-family:KaiTi;\
+    }\
+    ");
+
+    name_list->setStyleSheet("QListWidget{\
+    outline:none;\
+    border:none;\
+    font-family:KaiTi;\
+    }\
+    QListWidget::item{\
+    padding-top:24px;\
+    color:rgba(121,112,52,1);\
+    margin-left:40px;\
+    }\
+    QListWidget::item:hover{\
+    background-color:transparent;\
+    border-bottom:1px solid rgb(121,112,52);\
+    }\
+    QListWidget::item:selected{\
+    border-bottom:1px solid rgb(121,112,52);\
+    padding:0px;\
+    margin:0px;\
+    color:red;\
+    }\
+    QListWidget::item:selected:!active{\
+    border-width:0px;\
+    }\
+    ");
 }
 
 void Recent::refresh(){

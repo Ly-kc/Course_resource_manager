@@ -12,6 +12,37 @@ StatChart::StatChart(QWidget *parent) : QWidget(parent)
     QStringList chart_names;
     chart_names << "学科频率统计" << "每日打开文件频率";
     switch_combo->addItems(chart_names);
+    switch_combo->setStyleSheet("QComboBox{\
+        border:1px solid #eeeeee;\
+        border-radius:4px;\
+        padding:1px 2px 1px 2px ;\
+        background:#ffffff;\
+        font-size:14px;\
+        color:#333333;\
+        font-family:KaiTi;\
+        }\
+        QComboBox:checked{\
+        border:1px solid #069aae;\
+        }\
+        QComboBox QAbstractItemView{\
+        outline: 0px solid gray;\
+        border:1px solid #eeeeee;\
+        color:#333333;\
+        font-size:14px;\
+        font-family:KaiTi;\
+        background-color:#ffffff;\
+        selection-color:#333333;\
+        selection-background-color:#f1f8ff;\
+        }\
+        QComboBox::drop-down {\
+        subcontrol-origin: padding;\
+        subcontrol-position: top right;\
+        width: 16px;\
+        border-left: 0px solid darkgray;\
+        border-top-right-radius: 4px;\
+        border-bottom-right-radius: 4px;\
+        }\
+    ");
 
     paint_line();
     paint_pie();
@@ -117,6 +148,14 @@ void StatChart::paint_pie()
     pie_chart->setTitle("学科访问频率");
 
     pie_chartview->setRenderHint(QPainter::Antialiasing);
+}
+
+void StatChart::paintEvent(QPaintEvent *)
+{
+    QPainter painter(this);
+    QPixmap pix;
+    pix.load(":/images/background.png");
+    painter.drawPixmap(0,0,this->width(),this->height(),pix);
 }
 
 StatChart::~StatChart()

@@ -12,6 +12,7 @@
 #include<statchart.h>
 #include<recent.h>
 #include<introwidget.h>
+#include "mypushbotton.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -46,10 +47,14 @@ private:
     FileTree* file_tree;  //文件树
     QWidget* central_widget; //中部组件
     QPushButton* transfer_button; //转运按钮
-    QPushButton* chart_button;
-    QPushButton* notes_button;
-    QPushButton* website_button;
-    QPushButton* recent_button;
+    //QPushButton* chart_button;
+    MyPushButton* chart_button;
+    //QPushButton* notes_button;
+    MyPushButton* notes_button;
+    //QPushButton* website_button;
+    MyPushButton* website_button;
+    //QPushButton* recent_button;
+    MyPushButton* recent_button;
     WebList* web_list;
     NotesWidget* stikey_notes;
     StatChart* charts = 0;
@@ -75,5 +80,7 @@ private:
     void init_right();
     void action_reflect(QAction* action);
     void show_intro();
+
+    void paintEvent(QPaintEvent *);
 };
 #endif // MAINWINDOW_H

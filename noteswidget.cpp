@@ -20,9 +20,53 @@ NotesWidget::NotesWidget(QWidget *parent) : QWidget(parent)
     whole_layout->addStretch(1);
     this->setLayout(whole_layout);
 
-    connect(addnotes_button,&QPushButton::clicked,this,&NotesWidget::add_note);
+    //connect(addnotes_button,&QPushButton::clicked,this,&NotesWidget::add_note);
+    connect(addnotes_button,&QPushButton::clicked,[=](){
+        QTimer::singleShot(500,this,[=](){
+            this->NotesWidget::add_note();
+        });
+    });
     connect(notes_list,&QListWidget::customContextMenuRequested,this,&NotesWidget::show_menu);//右键单击
     connect(menu,&QMenu::triggered,this,&NotesWidget::action_reflect);
+
+    notes_list->setStyleSheet("QListWidget{\
+    outline:none;\
+    border:none;\
+    font-family:KaiTi;\
+    }\
+    QListWidget::item{\
+    padding-top:24px;\
+    color:rgba(121,112,52,1);\
+    margin-left:40px;\
+    }\
+    QListWidget::item:hover{\
+    background-color:transparent;\
+    border-bottom:1px solid rgb(121,112,52);\
+    }\
+    QListWidget::item:selected{\
+    border-bottom:1px solid rgb(121,112,52);\
+    padding:0px;\
+    margin:0px;\
+    color:red;\
+    }\
+    QListWidget::item:selected:!active{\
+    border-width:0px;\
+    }\
+    ");
+
+    addnotes_button->setStyleSheet("QPushButton{\
+    border:2px groove gray;\
+    border-radius:10px;\
+    padding:2px 4px;\
+    border-style:inset;\
+    color:rgb(255,235,205);\
+    }\
+    QPushButton:pressed{\
+    background-color:rgb(200,200,200);\
+    border-style:inset;\
+    color:rgb(121,112,52);\
+    }\
+    ");
 }
 
 void NotesWidget::get_notes()

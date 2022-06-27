@@ -20,6 +20,8 @@ public:
     void paint_pie();
     void paint_line();
     ~StatChart();
+
+    void paintEvent(QPaintEvent *);
 signals:
 
 };
