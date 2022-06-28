@@ -12,7 +12,7 @@ NotesWidget::NotesWidget(QWidget *parent) : QWidget(parent)
     menu->addAction("置顶");
 
     notes_list = new QListWidget;
-    notes_list->setContextMenuPolicy(Qt::CustomContextMenu); //右键单击
+    notes_list->setContextMenuPolicy(Qt::CustomContextMenu);
     init_list();
 
     whole_layout->addWidget(addnotes_button);

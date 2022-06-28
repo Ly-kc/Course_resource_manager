@@ -14,6 +14,8 @@ WebList::WebList(QWidget *parent) : QWidget(parent)
     menu->addAction("删除网址");
     web_list = new QListWidget;
     web_list->setContextMenuPolicy(Qt::CustomContextMenu);
+    web_list->setWordWrap(true);
+
     but=new QPushButton;
     but->setText(tr("新建链接"));
 
@@ -89,6 +91,7 @@ void WebList::refresh()
     for(auto info:info_list){
         auto item = new QListWidgetItem(info.name,web_list);
         item->setToolTip(info.link);
+        item->setTextAlignment(Qt::AlignCenter);
     }
 }
 
