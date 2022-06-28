@@ -63,6 +63,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     whole_layout->addLayout(left_layout,3);
     whole_layout->addLayout(middle_layout,6);
+    whole_layout->addStretch(0);
     init_right();
 
     //mainwindow不能直接setlayout
