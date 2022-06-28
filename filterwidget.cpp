@@ -222,13 +222,14 @@ void FilterWidget::show_result()
 
 void FilterWidget::click_header_slot(int colum)
 {
+    if(colum == 1 || colum == 2) return;
     if(file_table->horizontalHeader()->sectionResizeMode(colum) != 3)
         file_table->horizontalHeader()->setSectionResizeMode(colum, QHeaderView::ResizeToContents);     //然后设置要根据内容使用宽度的列
     else
     {
-        //qDebug() << "cloum " <<colum;
-        file_table->horizontalHeader()->setSectionResizeMode(colum, QHeaderView::Interactive);
-        file_table->setColumnWidth(colum,120);
+        file_table->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);    //x先自适应宽度
+//        file_table->horizontalHeader()->setSectionResizeMode(colum, QHeaderView::Interactive);
+//        file_table->setColumnWidth(colum,120);
     }
 }
 
