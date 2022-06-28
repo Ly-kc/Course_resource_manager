@@ -107,6 +107,7 @@ FilterWidget::FilterWidget(QWidget *parent) : QWidget(parent)
     QTableWidget::item{\
     background-color:rgb(240,255,255);\
     font-family:KaiTi;\
+    color:rgb(0,0,0);\
     }\
     QHeaderView::section{\
     background-color:rgb(176,224,230);\

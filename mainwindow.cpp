@@ -130,6 +130,7 @@ MainWindow::MainWindow(QWidget *parent)
     }\
     FileTree{\
     font-family:KaiTi;\
+    color:rgb(121,112,52);\
     }\
     ");
 

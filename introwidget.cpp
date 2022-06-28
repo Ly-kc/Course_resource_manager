@@ -34,7 +34,7 @@ IntroWidget::IntroWidget(QWidget *parent) : QWidget(parent)
                                "右侧窗口:\n"
                                "若要隐藏，可在左上方设置菜单中设置。\n"
                                "其中最近打开会展示最近打开的文件，单击即可打开。\n"
-                               "备忘便签会显示存放的便签，右键有置顶便签与删除便签的选项。\n"
+                               "备忘便签会显示存放的便签，右键可选择删除或置顶便签。\n"
                                "常用网址即存放网址，左键可打开，右键有删除选项。");
     text3->setWordWrap(true);
     QVBoxLayout *layout3 = new QVBoxLayout;
@@ -44,6 +44,9 @@ IntroWidget::IntroWidget(QWidget *parent) : QWidget(parent)
     intro_widget->addPage(page1);
     intro_widget->addPage(page2);
     intro_widget->addPage(page3);
+
+    setStyleSheet("font-family:KaiTi;");
+
 }
 
 void IntroWidget::show_intro()

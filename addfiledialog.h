@@ -37,6 +37,7 @@ private:
     QLineEdit * path_edit;
     QPushButton * submit_button;
     QPushButton * cancel_button;
+
 };
 
 #endif // ADDFILEDIALOG_H

@@ -22,6 +22,7 @@ AddFileDialog::AddFileDialog(QWidget *parent) :
     priority_slider->setMaximum(3);
     priority_slider->setPageStep(1);
     priority_slider->setOrientation(Qt::Horizontal);
+    priority_slider->setTickPosition(QSlider::TicksBelow);
     //布局输入框
     FormLayout->addRow("name:",name_edit);
     FormLayout->addRow("subject:",subject_box);
@@ -41,6 +42,93 @@ AddFileDialog::AddFileDialog(QWidget *parent) :
     //信号与槽
     QObject::connect(submit_button,&QPushButton::clicked,this,&AddFileDialog::save);
     QObject::connect(cancel_button,&QPushButton::clicked,this,&AddFileDialog::cancel); //------------待考虑
+
+    setStyleSheet("QPushButton{\
+    border:2px groove gray;\
+    border-radius:10px;\
+    padding:2px 4px;\
+    border-style:inset;\
+    color:rgb(0,0,0);\
+    }\
+    QPushButton:pressed{\
+    background-color:rgb(200,200,200);\
+    border-style:inset;\
+    color:rgb(121,112,52);\
+    }\
+    QComboBox{\
+    border:1px solid #eeeeee;\
+    border-radius:4px;\
+    padding:1px 2px 1px 2px ;\
+    background:#ffffff;\
+    font-size:14px;\
+    color:#333333;\
+    font-family:KaiTi;\
+    }\
+    QComboBox:checked{\
+    border:1px solid #069aae;\
+    }\
+    QComboBox QAbstractItemView{\
+    outline: 0px solid gray;\
+    border:1px solid #eeeeee;\
+    color:#333333;\
+    font-size:14px;\
+    font-family:KaiTi;\
+    background-color:#ffffff;\
+    selection-color:#333333;\
+    selection-background-color:#f1f8ff;\
+    }\
+    QComboBox::drop-down {\
+    subcontrol-origin: padding;\
+    subcontrol-position: top right;\
+    width: 16px;\
+    border-left: 0px solid darkgray;\
+    border-top-right-radius: 4px;\
+    border-bottom-right-radius: 4px;\
+    }\
+    ");
+
+    name_edit->setStyleSheet("QLineEdit{\
+    border:1px solid gray;\
+    border-radius:4px;\
+    border-bottom-right-radius:4px ;\
+    border-top-left-radius:4px ;\
+    font-family:KaiTi;\
+    }\
+    ");
+
+    priority_slider->setStyleSheet("QSlider::groove:horizontal{\
+    border:0px solid #bbb;\
+    }\
+    QSlider::sub-page:horizontal{\
+    background:rgb(90,49,255);\
+    border-radius:2px;\
+    margin-top:8px;\
+    margin-bottom:8px;\
+    }\
+    QSlider::add-page:horizontal{\
+    background:rgb(255,255, 255);\
+    border:0px solid #777;\
+    border-radius:2px;\
+    margin-top:9px;\
+    margin-bottom:9px;\
+    }\
+    QSlider::handle:horizontal{\
+    background: rgb(193,204,208);\
+    width:5px;\
+    border:1px solid rgb(193,204,208);\
+    border-radius:2px;\
+    margin-top:6px;\
+    margin-bottom:6px;\
+    }\
+    QSlider::handle:horizontal:hover{\
+    background:rgb(193,204,208);\
+    width:10px;\
+    border:1px solid rgb(193,204,208);\
+    border-radius:5px;\
+    margin-top:4px;\
+    margin-bottom:4px;\
+    }\
+    ");
 }
 
 void AddFileDialog::init_combo()

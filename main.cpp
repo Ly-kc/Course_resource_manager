@@ -14,6 +14,6 @@ int main(int argc, char *argv[])
     MainWindow* mainwindow = new MainWindow;
     mainwindow->show();
     a.exec();
-    delete mainwindow;
+   delete mainwindow;
     return 0;
 }
