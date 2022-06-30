@@ -81,9 +81,6 @@ AddFileDialog::AddFileDialog(QWidget *parent) :
     subcontrol-origin: padding;\
     subcontrol-position: top right;\
     width: 16px;\
-    border-left: 0px solid darkgray;\
-    border-top-right-radius: 4px;\
-    border-bottom-right-radius: 4px;\
     }\
     ");
 

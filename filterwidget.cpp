@@ -13,6 +13,7 @@ FilterWidget::FilterWidget(QWidget *parent) : QWidget(parent)
     file_table->setAutoScroll(true);
     table_layout->addWidget(file_table,10);
     file_table->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);//单元格宽度自动拉伸
+    file_table->setMinimumWidth(60);
     file_table->setSelectionBehavior(QAbstractItemView::SelectRows);
     file_table->horizontalHeader()->setSectionResizeMode(3, QHeaderView::ResizeToContents);
     file_table->setEditTriggers(QAbstractItemView::NoEditTriggers);
@@ -48,6 +49,7 @@ FilterWidget::FilterWidget(QWidget *parent) : QWidget(parent)
     init_combo();
     init_result();
     this->setLayout(whole_layout);
+
     //connect(filter_button,&QPushButton::clicked,this,&FilterWidget::show_result);
     connect(name_edit,&QLineEdit::editingFinished,this,&FilterWidget::show_result);
     connect(sub_filter,static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged),this,&FilterWidget::show_result);

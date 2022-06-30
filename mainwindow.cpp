@@ -109,7 +109,7 @@ MainWindow::MainWindow(QWidget *parent)
     });
     connect(settings,&QMenu::triggered,this,&MainWindow::action_reflect);
     connect(help,&QMenu::aboutToShow,introduction,&IntroWidget::show_intro);
-
+    this->resize( QSize( 1050, 700));
 
     setWindowIcon(QIcon(":/images/ico.ico"));
 
@@ -312,7 +312,7 @@ void MainWindow::show_websites()
 
 void MainWindow::show_charts()
 {
-    if(charts== 0) charts = new StatChart;
+    charts = new StatChart;
     charts->show();
 }
 
