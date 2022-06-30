@@ -274,7 +274,7 @@ void FilterWidget::action_reflect(QAction *action)
         bool ok;
         if(col>2) return;
         QString lab = "输入新"+file_table->horizontalHeaderItem(col)->text();
-        QString text = QInputDialog::getText(this, tr("Fuck QT!"),
+        QString text = QInputDialog::getText(this, tr("听我说谢谢你"),
                                                  lab, QLineEdit::Normal,
                                                  item->text(), &ok);
         if(ok && !text.isEmpty()){
